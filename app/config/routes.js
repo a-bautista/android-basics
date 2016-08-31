@@ -12,14 +12,12 @@ var Main = require('../components/Main');
 var Home = require('../components/Home');
 var PromptContainer = require('../containers/PromptContainer');
 
+
 var routes = (
     <Router history={hashHistory}>
         <Route path='/' component={Main}>
             <IndexRoute component={Home}/>
-            <Route path='desiredAirTemp' header='What is your desired air temperature' component={PromptContainer} />
-            <Route path='desiredSeaTemp/:desiredAirTemp' header='What is your desired sea temperature' component={PromptContainer} />
-            <Route path='desiredRainfall/:desiredSeaTemp' header='What is your desired average rainfall' component={PromptContainer} />
-
+            <Route path='questionsToFulfill' component={PromptContainer} />
         </Route>
     </Router>
 );

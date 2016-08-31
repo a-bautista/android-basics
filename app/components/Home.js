@@ -14,7 +14,7 @@ var Home = React.createClass({
                     Perfect Summer!
                 </h1>
                 <p className = 'lead'>Find your perfect destination for this summer</p>
-                    <Link to='/desiredAirTemp'>
+                    <Link to='/questionsToFulfill'>
                         <button type='button' className='btn btn-lg btn-success'>Get Started</button>
                     </Link>
             </div>
