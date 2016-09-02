@@ -1,0 +1,410 @@
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MaintActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"
+        android:orientation="vertical">
+
+        <TextView
+
+            android:id="@+id/questionOne"
+            android:text="In which month do you want to travel?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"/>
+
+        <RadioGroup
+            android:id="@+id/controlTheMonths"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/questionOne">
+
+            <RadioButton android:id="@+id/January"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="January"/>
+
+            <RadioButton android:id="@+id/February"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="February"/>
+
+            <RadioButton android:id="@+id/March"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="March"/>
+
+            <RadioButton android:id="@+id/April"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="April"/>
+
+            <RadioButton android:id="@+id/May"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="May"/>
+
+            <RadioButton android:id="@+id/June"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="June"/>
+
+            <RadioButton android:id="@+id/July"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="July"/>
+
+            <RadioButton android:id="@+id/August"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="August"/>
+
+            <RadioButton android:id="@+id/September"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="September"/>
+
+            <RadioButton android:id="@+id/October"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="October"/>
+
+            <RadioButton android:id="@+id/November"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="November"/>
+
+            <RadioButton android:id="@+id/December"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="December"/>
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/questionTwo"
+            android:text="What's your desired weather temperature?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_below="@+id/controlTheMonths"/>
+
+        <SeekBar
+            android:id="@+id/seekTheWeatherTemp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:max="60"
+            android:progress="1"
+            android:layout_below="@+id/questionTwo"
+            />
+
+        <TextView
+            android:id="@+id/seeTheWeatherTemp"
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
+            android:layout_below="@+id/seekTheWeatherTemp"
+            />
+
+        <TextView
+            android:id="@+id/questionThree"
+            android:text="What's your desired sea weather temperature?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_below="@+id/seeTheWeatherTemp"/>
+
+        <SeekBar
+            android:id="@+id/seekTheSeaWeatherTemp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:max="40"
+            android:progress="1"
+            android:layout_below="@+id/questionThree"/>
+
+        <TextView
+            android:id="@+id/seeTheSeaWeatherTemp"
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
+            android:layout_below="@+id/seekTheSeaWeatherTemp"/>
+
+        <TextView
+            android:id="@+id/questionFour"
+            android:text="Any range of average rainfall?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_below="@+id/seeTheSeaWeatherTemp"/>
+
+        <RadioGroup
+            android:id="@+id/controlRainfall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/questionFour" >
+
+            <RadioButton
+                android:id="@+id/regularRain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="101+mm" />
+
+            <RadioButton
+                android:id="@+id/someRain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="51-100 mm" />
+
+            <RadioButton
+                android:id="@+id/aLittleBitRain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="26-50 mm" />
+
+            <RadioButton
+                android:id="@+id/almostNothing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6-25 mm" />
+
+            <RadioButton
+                android:id="@+id/nothingAtAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0-5 mm"/>
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/questionFive"
+            android:text="Any range of daylight?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_below="@+id/controlRainfall"/>
+
+        <RadioGroup
+            android:id="@+id/controlSunshine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/questionFive">
+
+            <RadioButton
+                android:id="@+id/maxValSunshine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10-12h"/>
+
+            <RadioButton
+                android:id="@+id/aboveMediumValSunshine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8-9h"/>
+
+            <RadioButton
+                android:id="@+id/mediumValSunshine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6-7h"/>
+
+            <RadioButton
+                android:id="@+id/lowValSunshine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4-5h"/>
+
+            <RadioButton
+                android:id="@+id/veryLowValSunshine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0-3h"/>
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/questionSix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Big Mac Index"
+            android:textSize="14sp"
+            android:layout_below="@id/controlSunshine"/>
+
+        <RadioGroup
+            android:id="@+id/controlBigMac"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/questionSix">
+
+            <RadioButton
+                android:id="@+id/quiteExpensive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$3.5 - 4.0"/>
+
+            <RadioButton
+                android:id="@+id/expensive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$3.0 - 3.5"/>
+
+            <RadioButton
+                android:id="@+id/moderate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$2.5 - 3.0"/>
+
+            <RadioButton
+                android:id="@+id/cheap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$2.0 - 2.5"/>
+
+            <RadioButton
+                android:id="@+id/veryCheap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$0 - 2.0"/>
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/questionSeven"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Average of standard of living in a country"
+            android:textSize="14sp"
+            android:layout_below="@id/controlBigMac"/>
+
+        <RadioGroup
+            android:id="@+id/controlAverageOfLiving"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/questionSeven">
+
+            <RadioButton
+                android:id="@+id/veryHigh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.850+"/>
+
+            <RadioButton
+                android:id="@+id/high"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.750 - 0.849"/>
+
+            <RadioButton
+                android:id="@+id/medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.650 - 0.749"/>
+
+            <RadioButton
+                android:id="@+id/low"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.550 - 0.649"/>
+
+            <RadioButton
+                android:id="@+id/veryLow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.550 or less"/>
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/showResultsMonthsAndCities"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/showResultsMonthsAndCities"
+            android:onClick="onClickShowResults"/>
+
+        <Button
+            android:id="@+id/showResultsMonths"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/showResultsMonths"
+            android:onClick="onClickShowResults"/>
+
+        <Button
+            android:id="@+id/showResultsCities"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/showResultsCities"
+            android:onClick="onClickShowResults"/>
+
+        <Button
+            android:id="@+id/showResultsConsumerPrices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/showResultsOfConsumerPrices"
+            android:onClick="onClickShowResults"/>
+
+        <Button
+            android:id="@+id/showResultsAvgStdOfLiving"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/showResultsAvgStdOfLiving"
+            android:onClick="onClickShowResults"/>
+
+        <Button
+            android:id="@+id/showResultsWeather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/showResultsWeather"
+            android:onClick="onClickShowResults"/>
+
+        <Button
+            android:id="@+id/showResultsRainfall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/showResultsRainfall"
+            android:onClick="onClickShowResults"/>
+
+        <Button
+            android:id="@+id/showResultsSeaTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/showResultsSeaTemp"
+            android:onClick="onClickShowResults"/>
+
+        <Button
+            android:id="@+id/showResultsSunshine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/showResultsSunshine"
+            android:onClick="onClickShowResults"/>
+
+
+
+    </LinearLayout>
+
+</ScrollView>
+
+
+
+
