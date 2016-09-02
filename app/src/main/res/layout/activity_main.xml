@@ -31,7 +31,7 @@
                 
                 <RadioButton android:id="@+id/January" 
                     android:layout_width="wrap_content" 
-                    android:layout_height="wrap_content" 
+                    android:layout_height="wrap_content"
                     android:text="January"/>
                 
                 <RadioButton android:id="@+id/February" 
@@ -334,6 +334,22 @@
                     android:text="0.550 or less"/>
 
             </RadioGroup>
+
+            <Button
+                android:id="@+id/showResults"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/showResults"
+                android:onClick="onClickShowResults"/>
+
+            <Button
+                android:id="@+id/displayResults"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/displayResults"
+                android:onClick="onClickDisplayResults"/>
+
+
         </LinearLayout>
 
     </ScrollView>
