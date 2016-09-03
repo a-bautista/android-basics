@@ -2,14 +2,18 @@ package com.example.abautista.perfectsummer3;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.os.Bundle;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import static android.content.Intent.getIntent;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
     public DatabaseHelper(Context context) {
@@ -141,6 +145,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+        
 
         //===================================== EXECUTE QUERIES ===================================
 
@@ -416,9 +422,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return results;
     }
 
-    public Cursor showQueryJanuary(){
-        return "";
-    }
+
 
 
 }

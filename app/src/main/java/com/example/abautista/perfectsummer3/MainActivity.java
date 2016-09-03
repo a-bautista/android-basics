@@ -18,6 +18,9 @@ import android.content.Intent;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static int ProgressBarValueWeather    = 0;
+    private static int ProgressBarValueSeaWeather = 0;
+
     private static SeekBar weatherSeekBar;
     private static TextView weatherTextView;
 
@@ -25,13 +28,13 @@ public class MainActivity extends AppCompatActivity {
     private static SeekBar seaWeatherSeekBar;
     private static TextView seaWeatherTextView;
 
-    Button showResultsMonthsAndCities, showResultsMonths, showResultsCities, showResultsConsumerPrices,
+    private static Button showResultsMonthsAndCities, showResultsMonths, showResultsCities, showResultsConsumerPrices,
             showResultsAvgStdOfLiving, showResultsWeather, showResultsRainfall, showResultsSeaTemp,
             showResultsSunshine, showResults ;
 
-    RadioGroup selectedMonth;
-    RadioButton selectedMonthRb;
-    TextView viewWhichMonthIsSelected;
+    private static RadioGroup selectedMonth, selectedRainfall, selectedSunshine, selectedBigMac, selectedAvgStds;
+    private static RadioButton selectedMonthRb, selectedRainfallRb, selectedSunshineRb, selectedBigMacRb, selectedAvgStdsRb;
+    private static TextView viewWhichMonthIsSelected;
 
 
     //create the database in the main activity
@@ -63,11 +66,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public int getProgressBarValueSeaWeather(){
+        return ProgressBarValueSeaWeather;
+    }
+
+    public void setProgressBarValueSeaWeather(int progressBarValueSeaWeather){
+        this.ProgressBarValueSeaWeather = progressBarValueSeaWeather;
+    }
+
+    public int getProgressBarValueWeather(){
+        return ProgressBarValueWeather;
+    }
+
+    public void setProgressBarValueWeather(int progressBarValueWeather){
+        this.ProgressBarValueWeather = progressBarValueWeather;
+    }
+
     public void seeTheWeatherTemp (){
 
         weatherSeekBar  = (SeekBar)findViewById(R.id.seekTheWeatherTemp);
         weatherTextView = (TextView)findViewById(R.id.seeTheWeatherTemp);
-
         //This line helps us to see the initial value of the seekbar once it gets initialized.
         weatherTextView.setText("Current weather: "+weatherSeekBar.getProgress()+
                 " / " + weatherSeekBar.getMax() );
@@ -82,8 +100,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         progress_value = progress;
+                        setProgressBarValueWeather(progress_value);
                         weatherTextView.setText("Desired weather: " + progress + " / " + weatherSeekBar.getMax());
-                        Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -95,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onStopTrackingTouch(SeekBar seekBar) {
                         weatherTextView.setText("Current: " + progress_value + " / " + weatherSeekBar.getMax());
-                        Toast.makeText(MainActivity.this, "SeekBar in StopTracking", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(MainActivity.this, "SeekBar in StopTracking", Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -119,8 +138,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         progress_value = progress;
+                        setProgressBarValueSeaWeather(progress_value);
                         seaWeatherTextView.setText("Desired sea weather: " + progress + " / " + seaWeatherSeekBar.getMax());
-                        Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -132,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onStopTrackingTouch(SeekBar seekBar) {
                         seaWeatherTextView.setText("Current: " + progress_value + " / " + seaWeatherSeekBar.getMax());
-                        Toast.makeText(MainActivity.this, "SeekBar in StopTracking", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(MainActivity.this, "SeekBar in StopTracking", Toast.LENGTH_LONG).show();
                     }
                 }
         );
@@ -336,7 +356,11 @@ public class MainActivity extends AppCompatActivity {
     public void onClickListenerButton(){
 
         viewWhichMonthIsSelected    = (TextView)findViewById(R.id.displayMonth);
-        selectedMonth = (RadioGroup)findViewById(R.id.controlTheMonths);
+        selectedMonth               = (RadioGroup)findViewById(R.id.controlTheMonths);
+        selectedRainfall            = (RadioGroup)findViewById(R.id.controlRainfall);
+        selectedSunshine            = (RadioGroup)findViewById(R.id.controlSunshine);
+        selectedBigMac              = (RadioGroup)findViewById(R.id.controlBigMac);
+        selectedAvgStds             = (RadioGroup)findViewById(R.id.controlAverageOfLiving);
 
         showResults.setOnClickListener(
 
@@ -344,47 +368,52 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        int month = selectedMonth.getCheckedRadioButtonId();
-                        selectedMonthRb = (RadioButton) findViewById(month);
-                        String monthText = (String) selectedMonthRb.getText();
-                        viewWhichMonthIsSelected.setText(" Button is: " + selectedMonthRb.getText());
+                        int weatherValueProgress    = getProgressBarValueWeather();
+                        int weatherValueSeaProgress = getProgressBarValueSeaWeather();
+                        int month                   = selectedMonth.getCheckedRadioButtonId();
+                        int rainfall                = selectedRainfall.getCheckedRadioButtonId();
+                        int sunshine                = selectedSunshine.getCheckedRadioButtonId();
+                        int bigMacIndex             = selectedBigMac.getCheckedRadioButtonId();
+                        int avgStdLiving            = selectedAvgStds.getCheckedRadioButtonId();
+
+                        //months
+                        selectedMonthRb           = (RadioButton) findViewById(month);
+                        String monthText          = (String) selectedMonthRb.getText();
+                        //viewWhichMonthIsSelected.setText(" Button is: " + selectedMonthRb.getText());
+
+                        //rainfall
+                        selectedRainfallRb        = (RadioButton) findViewById(rainfall);
+                        String [] rainfallText    = selectedRainfallRb.getText().toString().split("\\/");
+
+                        //sunshine
+                        selectedSunshineRb        = (RadioButton) findViewById(sunshine);
+                        String sunshineText       = (String) selectedSunshineRb.getText();
+
+                        //BigMac
+                        selectedBigMacRb          = (RadioButton) findViewById(bigMacIndex);
+                        String bigMacText         = (String) selectedBigMacRb.getText();
+
+                        //AvgStds
+                        selectedAvgStdsRb         = (RadioButton) findViewById(avgStdLiving);
+                        String avgStdLivingText   = (String) selectedAvgStdsRb.getText();
+
 
                         switch (monthText) {
                             case "January":
-                                viewWhichMonthIsSelected.setText(" You selected button 1");
+                                viewWhichMonthIsSelected.setText(" Weather value: "+ weatherValueProgress + "\n Sea value: " + weatherValueSeaProgress + "\n Rain values :" + rainfallText[0]
+                                        + "\n Sunshine values: "+ sunshineText
+                                        + "\n Big Mac Index: " + bigMacText + "\n Avg Standard Living: " + avgStdLivingText);
+
+                                Intent intent = new Intent(MainActivity.this,DatabaseHelper.class);
+                                intent.putExtra("weather value",weatherValueProgress);
+                                startActivity(intent);
+
                                 break;
                             case "February":
-                                viewWhichMonthIsSelected.setText(" You selected button 2");
-
+                                viewWhichMonthIsSelected.setText(" Sea value: " + weatherValueSeaProgress);
                         }
                     }
                 }
         );
-
-
-       /* switch (id){
-
-            case -1:
-                viewWhichMonthIsSelected.setText(" No button was selected " + id);
-                break;
-            case R.id.January:
-                viewWhichMonthIsSelected.setText(" This is January: " + id);
-                break;
-            case R.id.February:
-                viewWhichMonthIsSelected.setText(" This is February: " + id);
-                break;
-            case R.id.March:
-                viewWhichMonthIsSelected.setText(" This is March: " + id);
-                break;
-            case 0:
-                viewWhichMonthIsSelected.setText(" This is March: " + id);
-                break;
-            default:
-                break;
-        }*/
-
-
-
     }
-
 }
