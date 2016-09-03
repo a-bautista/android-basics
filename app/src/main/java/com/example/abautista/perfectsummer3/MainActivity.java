@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.EditText;
 import android.view.View;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +27,12 @@ public class MainActivity extends AppCompatActivity {
 
     Button showResultsMonthsAndCities, showResultsMonths, showResultsCities, showResultsConsumerPrices,
             showResultsAvgStdOfLiving, showResultsWeather, showResultsRainfall, showResultsSeaTemp,
-            showResultsSunshine;
+            showResultsSunshine, showResults ;
+
+    RadioGroup selectedMonth;
+    RadioButton selectedMonthRb;
+    TextView viewWhichMonthIsSelected;
+
 
     //create the database in the main activity
     DatabaseHelper myDb;
@@ -50,9 +56,10 @@ public class MainActivity extends AppCompatActivity {
         showResultsRainfall         = (Button)findViewById(R.id.showResultsRainfall);
         showResultsSeaTemp          = (Button)findViewById(R.id.showResultsSeaTemp);
         showResultsSunshine         = (Button)findViewById(R.id.showResultsSunshine);
-
+        showResults                 = (Button)findViewById(R.id.showResults);
 
         viewResults();
+        onClickListenerButton();
 
     }
 
@@ -259,22 +266,22 @@ public class MainActivity extends AppCompatActivity {
         showResultsSeaTemp.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
-            public void onClick(View view) {
-                Cursor results = myDb.showResultsSeaWeather();
-                if (results.getCount() == 0) {
-                    showMessage("Error: ", "Nothing found.");
-                    return;
-                } else {
-                    StringBuffer buffer = new StringBuffer();
-                    while (results.moveToNext()) {
-                        buffer.append("CityMonth code :" + results.getString(0) + "\n");
-                        buffer.append("Month :" + results.getString(1) + "\n");
-                        buffer.append("Value :" + results.getString(2) + "\n\n");
+                    public void onClick(View view) {
+                        Cursor results = myDb.showResultsSeaWeather();
+                        if (results.getCount() == 0) {
+                            showMessage("Error: ", "Nothing found.");
+                            return;
+                        } else {
+                            StringBuffer buffer = new StringBuffer();
+                            while (results.moveToNext()) {
+                                buffer.append("CityMonth code :" + results.getString(0) + "\n");
+                                buffer.append("Month :" + results.getString(1) + "\n");
+                                buffer.append("Value :" + results.getString(2) + "\n\n");
+                            }
+                            showMessage("Data", buffer.toString());
+                        }
                     }
-                    showMessage("Data", buffer.toString());
-                }
-            }
-        });
+                });
 
         showResultsSunshine.setOnClickListener(
                 new View.OnClickListener() {
@@ -324,6 +331,60 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle(title);
         builder.setMessage(Message);
         builder.show();
+    }
+
+    public void onClickListenerButton(){
+
+        viewWhichMonthIsSelected    = (TextView)findViewById(R.id.displayMonth);
+        selectedMonth = (RadioGroup)findViewById(R.id.controlTheMonths);
+
+        showResults.setOnClickListener(
+
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        int month = selectedMonth.getCheckedRadioButtonId();
+                        selectedMonthRb = (RadioButton) findViewById(month);
+                        String monthText = (String) selectedMonthRb.getText();
+                        viewWhichMonthIsSelected.setText(" Button is: " + selectedMonthRb.getText());
+
+                        switch (monthText) {
+                            case "January":
+                                viewWhichMonthIsSelected.setText(" You selected button 1");
+                                break;
+                            case "February":
+                                viewWhichMonthIsSelected.setText(" You selected button 2");
+
+                        }
+                    }
+                }
+        );
+
+
+       /* switch (id){
+
+            case -1:
+                viewWhichMonthIsSelected.setText(" No button was selected " + id);
+                break;
+            case R.id.January:
+                viewWhichMonthIsSelected.setText(" This is January: " + id);
+                break;
+            case R.id.February:
+                viewWhichMonthIsSelected.setText(" This is February: " + id);
+                break;
+            case R.id.March:
+                viewWhichMonthIsSelected.setText(" This is March: " + id);
+                break;
+            case 0:
+                viewWhichMonthIsSelected.setText(" This is March: " + id);
+                break;
+            default:
+                break;
+        }*/
+
+
+
     }
 
 }

@@ -12,6 +12,7 @@
         <string name="showResultsRainfall">Display the rainfall data</string>
         <string name="showResultsSeaTemp">Display the current sea weather temp</string>
         <string name="showResultsSunshine">Display the current sunshine values</string>
+        <string name="showResults">Display results</string>
 
 
 

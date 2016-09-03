@@ -93,6 +93,21 @@
         </RadioGroup>
 
         <TextView
+
+            android:id="@+id/displayMonth"
+            android:text=" "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"/>
+
+        <Button
+            android:id="@+id/showResults"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/showResults"
+            android:onClick="onClickShowResults"/>
+
+        <TextView
             android:id="@+id/questionTwo"
             android:text="What's your desired weather temperature?"
             android:layout_width="wrap_content"
@@ -398,7 +413,6 @@
             android:layout_height="wrap_content"
             android:text="@string/showResultsSunshine"
             android:onClick="onClickShowResults"/>
-
 
 
     </LinearLayout>

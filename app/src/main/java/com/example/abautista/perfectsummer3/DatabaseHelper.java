@@ -416,4 +416,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return results;
     }
 
+    public Cursor showQueryJanuary(){
+        return "";
+    }
+
+
 }
