@@ -12,8 +12,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import static android.content.Intent.getIntent;
+import static android.content.Intent.*;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
     public DatabaseHelper(Context context) {
@@ -146,7 +145,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        
 
         //===================================== EXECUTE QUERIES ===================================
 
@@ -349,6 +347,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     }
 
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.w(TAG,
@@ -420,6 +419,19 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor results = db.rawQuery("select * from "+SEA_TEMP_TABLE, null);
         return results;
+
+    }
+
+    public Cursor showResultsTempJanuary(int selectedWeather){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor results = db.rawQuery("select "+WEATHER_TEMP_TABLE_COL_THREE+","+CITIES_COL_TWO+" from "+WEATHER_TEMP_TABLE+","+MONTHS_TABLE+
+                ","+MONTHS_CITIES_TABLE+","+CITIES_TABLE+" where "+MONTHS_COL_ONE+" = "+MONTHS_CITIES_COL_THREE+
+                " and "+MONTHS_CITIES_COL_ONE+" = "+WEATHER_TEMP_TABLE_COL_ONE+" and "+WEATHER_TEMP_TABLE_COL_TWO+
+                " = "+MONTHS_CITIES_COL_THREE+" and "+CITIES_COL_ONE+" = "+MONTHS_CITIES_COL_TWO, null);
+        return results;
+
+
     }
 
 

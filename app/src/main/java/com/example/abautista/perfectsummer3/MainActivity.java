@@ -16,7 +16,10 @@ import android.widget.Toast;
 import android.database.Cursor;
 import android.content.Intent;
 
+import java.io.Serializable;
+
 public class MainActivity extends AppCompatActivity {
+
 
     private static int ProgressBarValueWeather    = 0;
     private static int ProgressBarValueSeaWeather = 0;
@@ -38,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //create the database in the main activity
-    DatabaseHelper myDb;
+    private DatabaseHelper myDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         weatherTextView = (TextView)findViewById(R.id.seeTheWeatherTemp);
         //This line helps us to see the initial value of the seekbar once it gets initialized.
         weatherTextView.setText("Current weather: "+weatherSeekBar.getProgress()+
-                " / " + weatherSeekBar.getMax() );
+                " / " + weatherSeekBar.getMax() +"ºC" );
 
         //This piece of code helps us to see the current progress of the seekbar when you start moving the seekbar.
         weatherSeekBar.setOnSeekBarChangeListener(
@@ -101,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         progress_value = progress;
                         setProgressBarValueWeather(progress_value);
-                        weatherTextView.setText("Desired weather: " + progress + " / " + weatherSeekBar.getMax());
+                        weatherTextView.setText("Desired weather: " + progress + " / " + weatherSeekBar.getMax() +"ºC");
                         //Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
                     }
 
@@ -113,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onStopTrackingTouch(SeekBar seekBar) {
-                        weatherTextView.setText("Current: " + progress_value + " / " + weatherSeekBar.getMax());
+                        weatherTextView.setText("Current: " + progress_value + " / " + weatherSeekBar.getMax() +"ºC");
                         //Toast.makeText(MainActivity.this, "SeekBar in StopTracking", Toast.LENGTH_LONG).show();
                     }
                 }
@@ -127,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         seaWeatherTextView = (TextView) findViewById(R.id.seeTheSeaWeatherTemp);
 
         seaWeatherTextView.setText("Current sea weather: " + seaWeatherSeekBar.getProgress() +
-                " / " + seaWeatherSeekBar.getMax());
+                " / " + seaWeatherSeekBar.getMax() +"ºC");
 
         seaWeatherSeekBar.setOnSeekBarChangeListener(
 
@@ -139,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         progress_value = progress;
                         setProgressBarValueSeaWeather(progress_value);
-                        seaWeatherTextView.setText("Desired sea weather: " + progress + " / " + seaWeatherSeekBar.getMax());
+                        seaWeatherTextView.setText("Desired sea weather: " + progress + " / " + seaWeatherSeekBar.getMax() +"ºC");
                         //Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
                     }
 
@@ -151,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onStopTrackingTouch(SeekBar seekBar) {
-                        seaWeatherTextView.setText("Current: " + progress_value + " / " + seaWeatherSeekBar.getMax());
+                        seaWeatherTextView.setText("Current: " + progress_value + " / " + seaWeatherSeekBar.getMax() +"ºC");
                         //Toast.makeText(MainActivity.this, "SeekBar in StopTracking", Toast.LENGTH_LONG).show();
                     }
                 }
@@ -400,13 +403,34 @@ public class MainActivity extends AppCompatActivity {
 
                         switch (monthText) {
                             case "January":
-                                viewWhichMonthIsSelected.setText(" Weather value: "+ weatherValueProgress + "\n Sea value: " + weatherValueSeaProgress + "\n Rain values :" + rainfallText[0]
-                                        + "\n Sunshine values: "+ sunshineText
+                                viewWhichMonthIsSelected.setText("No match with your existing data: "+"\nWeather value: " + weatherValueProgress + "\n Sea value: " + weatherValueSeaProgress +
+                                        "\n Rain values :" + rainfallText[0] + "\n Sunshine values: " + sunshineText
                                         + "\n Big Mac Index: " + bigMacText + "\n Avg Standard Living: " + avgStdLivingText);
 
-                                Intent intent = new Intent(MainActivity.this,DatabaseHelper.class);
-                                intent.putExtra("weather value",weatherValueProgress);
-                                startActivity(intent);
+                                if (weatherValueProgress==15 && weatherValueSeaProgress==15 && rainfallText[0]=="Regular rain" && sunshineText =="10-12h"
+                                        && bigMacText=="$3.5 - 4.0" && avgStdLivingText == "0.850+" ){
+                                    viewWhichMonthIsSelected.setText("Tu ciudad ideal es Mallorca");
+                                }else{
+                                    viewWhichMonthIsSelected.setText("No match with your existing data: "+"\nWeather value: " + weatherValueProgress + "\n Sea value: " + weatherValueSeaProgress +
+                                            "\n Rain values :" + rainfallText[0] + "\n Sunshine values: " + sunshineText
+                                            + "\n Big Mac Index: " + bigMacText + "\n Avg Standard Living: " + avgStdLivingText);
+                                }
+
+                               /*
+                                Cursor results = myDb.showResultsTempJanuary(weatherValueProgress);
+
+                                if (results.getCount() == 0) {
+                                    showMessage("Error: ", "Nothing found.");
+                                    return;
+                                } else {
+                                    StringBuffer buffer = new StringBuffer();
+                                    while (results.moveToNext()) {
+                                        buffer.append("CityMonth code :" + results.getString(0) + "\n");
+                                        buffer.append("Month :" + results.getString(1) + "\n");
+                                        buffer.append("Value :" + results.getString(2) + "\n\n");
+                                    }
+                                    viewWhichMonthIsSelected.setText(" Values: " +buffer.toString());
+                                }*/
 
                                 break;
                             case "February":
@@ -416,4 +440,5 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
     }
+
 }
