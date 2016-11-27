@@ -1,22 +1,21 @@
 package com.example.abautista.perfectsummer3;
 
 import android.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
-import android.widget.EditText;
-import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.database.Cursor;
-import android.content.Intent;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -130,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         seaWeatherTextView = (TextView) findViewById(R.id.seeTheSeaWeatherTemp);
 
         seaWeatherTextView.setText("Current sea weather: " + seaWeatherSeekBar.getProgress() +
-                " / " + seaWeatherSeekBar.getMax() +"ºC");
+                " / " + seaWeatherSeekBar.getMax() + "ºC");
 
         seaWeatherSeekBar.setOnSeekBarChangeListener(
 
@@ -142,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         progress_value = progress;
                         setProgressBarValueSeaWeather(progress_value);
-                        seaWeatherTextView.setText("Desired sea weather: " + progress + " / " + seaWeatherSeekBar.getMax() +"ºC");
+                        seaWeatherTextView.setText("Desired sea weather: " + progress + " / " + seaWeatherSeekBar.getMax() + "ºC");
                         //Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
                     }
 
@@ -154,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onStopTrackingTouch(SeekBar seekBar) {
-                        seaWeatherTextView.setText("Current: " + progress_value + " / " + seaWeatherSeekBar.getMax() +"ºC");
+                        seaWeatherTextView.setText("Current: " + progress_value + " / " + seaWeatherSeekBar.getMax() + "ºC");
                         //Toast.makeText(MainActivity.this, "SeekBar in StopTracking", Toast.LENGTH_LONG).show();
                     }
                 }
@@ -356,6 +355,70 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
+    public List<Integer> checkSeaAndWeatherTemp(List<Integer> listOfValues, Integer valueToCheck){
+
+        List<Integer> accumulatedPoints = new ArrayList<Integer>();
+        Integer tempValue =0;
+
+        for (int i=0; i<listOfValues.size(); i++){
+
+            tempValue = listOfValues.get(i);
+
+            if(java.lang.Math.abs(tempValue-valueToCheck)==0)
+                accumulatedPoints.add(5);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==1)
+                accumulatedPoints.add(4);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==2)
+                accumulatedPoints.add(3);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==3)
+                accumulatedPoints.add(2);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==4)
+                accumulatedPoints.add(1);
+            else
+                accumulatedPoints.add(0);
+        }
+
+        return accumulatedPoints;
+    }
+
+    public List<Integer> checkOtherValues(List<Integer> listOfValues, Integer valueToCheck, Integer selectedValue){
+
+        List<Integer> accumulatedPoints = new ArrayList<Integer>();
+        Integer tempValue =0;
+
+        for (int i=0; i<listOfValues.size(); i++){
+
+            tempValue = listOfValues.get(i);
+
+            if((java.lang.Math.abs(tempValue-valueToCheck)==0) && selectedValue==4)
+                accumulatedPoints.add(5);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==1 && selectedValue==3)
+                accumulatedPoints.add(4);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==2 && selectedValue==2)
+                accumulatedPoints.add(3);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==3 && selectedValue==1)
+                accumulatedPoints.add(2);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==4 && selectedValue==0)
+                accumulatedPoints.add(1);
+            else
+                accumulatedPoints.add(0);
+        }
+
+        return accumulatedPoints;
+    }
+
+    public HashMap<String, Integer> insertValuesIntoHashMap(List<String> cities,List<Integer> numericValues){
+
+        HashMap<String,Integer> myMap = new HashMap<>();
+
+        for (int i = 0; i < cities.size(); i++) {
+
+            myMap.put(cities.get(i), numericValues.get(i));
+        }
+        return myMap;
+    }
+
+
     public void onClickListenerButton(){
 
         viewWhichMonthIsSelected    = (TextView)findViewById(R.id.displayMonth);
@@ -369,76 +432,120 @@ public class MainActivity extends AppCompatActivity {
 
                 new View.OnClickListener() {
                     @Override
+
                     public void onClick(View view) {
 
-                        int weatherValueProgress    = getProgressBarValueWeather();
-                        int weatherValueSeaProgress = getProgressBarValueSeaWeather();
-                        int month                   = selectedMonth.getCheckedRadioButtonId();
-                        int rainfall                = selectedRainfall.getCheckedRadioButtonId();
-                        int sunshine                = selectedSunshine.getCheckedRadioButtonId();
-                        int bigMacIndex             = selectedBigMac.getCheckedRadioButtonId();
-                        int avgStdLiving            = selectedAvgStds.getCheckedRadioButtonId();
+
+                        int weatherValueProgress      = getProgressBarValueWeather();
+                        int weatherValueSeaProgress   = getProgressBarValueSeaWeather();
+                        int month = selectedMonth.getCheckedRadioButtonId();
+                        //int rainfall                = selectedRainfall.getCheckedRadioButtonId();
+                        //int sunshine                = selectedSunshine.getCheckedRadioButtonId();
+                        //int bigMacIndex             = selectedBigMac.getCheckedRadioButtonId();
+                        //int avgStdLiving            = selectedAvgStds.getCheckedRadioButtonId();
+
 
                         //months
-                        selectedMonthRb           = (RadioButton) findViewById(month);
-                        String monthText          = (String) selectedMonthRb.getText();
+                        selectedMonthRb              = (RadioButton) findViewById(month);
+                        String monthText             = (String) selectedMonthRb.getText();
                         //viewWhichMonthIsSelected.setText(" Button is: " + selectedMonthRb.getText());
 
-                        //rainfall
-                        selectedRainfallRb        = (RadioButton) findViewById(rainfall);
-                        String [] rainfallText    = selectedRainfallRb.getText().toString().split("\\/");
-
                         //sunshine
-                        selectedSunshineRb        = (RadioButton) findViewById(sunshine);
-                        String sunshineText       = (String) selectedSunshineRb.getText();
+
+                        //rainfall
+                        RadioGroup radioGroupRainfall     =  (RadioGroup) findViewById(R.id.controlRainfall);
+                        RadioButton checkedButtonRainfall = ((RadioButton)findViewById(radioGroupRainfall.getCheckedRadioButtonId()));
+                        Integer valueOfRainfall           = (Integer) checkedButtonRainfall.getTag();
+
+                        //selectedSunshineRb        = (RadioButton) findViewById(sunshine);
+                        //String sunshineText       = (String) selectedSunshineRb.getText();
 
                         //BigMac
-                        selectedBigMacRb          = (RadioButton) findViewById(bigMacIndex);
-                        String bigMacText         = (String) selectedBigMacRb.getText();
+                        //selectedBigMacRb          = (RadioButton) findViewById(bigMacIndex);
+                        //String bigMacText         = (String) selectedBigMacRb.getText();
 
                         //AvgStds
-                        selectedAvgStdsRb         = (RadioButton) findViewById(avgStdLiving);
-                        String avgStdLivingText   = (String) selectedAvgStdsRb.getText();
+                        //selectedAvgStdsRb         = (RadioButton) findViewById(avgStdLiving);
+                        //String avgStdLivingText   = (String) selectedAvgStdsRb.getText();
 
+                        HashMap<String, Integer> myWeatherMap = new HashMap<>();
+                        HashMap<String, Integer> mySeaWeatherMap = new HashMap<>();
+                        HashMap<String, Integer> myRainfallMap = new HashMap<>();
+
+                        List<String> citiesWeather = new ArrayList<String>();
+                        List<Integer> weatherValueCities = new ArrayList<Integer>();
+
+                        List<String> citiesSeaWeather = new ArrayList<String>();
+                        List<Integer> seaWeatherValueCities = new ArrayList<Integer>();
+
+                        List<String> citiesRainfall = new ArrayList<String>();
+                        List<Integer> rainfallValueCities = new ArrayList<Integer>();
+
+                        List<Integer> winnerValuesOfWeather = new ArrayList<Integer>();
+                        List<Integer> winnerValuesOfSeaWeather = new ArrayList<Integer>();
+                        List<Integer> winnerValuesOfRainfall = new ArrayList<Integer>();
 
                         switch (monthText) {
+
                             case "January":
-                                viewWhichMonthIsSelected.setText("No match with your existing data: "+"\nWeather value: " + weatherValueProgress + "\n Sea value: " + weatherValueSeaProgress +
-                                        "\n Rain values :" + rainfallText[0] + "\n Sunshine values: " + sunshineText
-                                        + "\n Big Mac Index: " + bigMacText + "\n Avg Standard Living: " + avgStdLivingText);
 
-                                if (weatherValueProgress==15 && weatherValueSeaProgress==15 && rainfallText[0]=="Regular rain" && sunshineText =="10-12h"
-                                        && bigMacText=="$3.5 - 4.0" && avgStdLivingText == "0.850+" ){
-                                    viewWhichMonthIsSelected.setText("Tu ciudad ideal es Mallorca");
-                                }else{
-                                    viewWhichMonthIsSelected.setText("No match with your existing data: "+"\nWeather value: " + weatherValueProgress + "\n Sea value: " + weatherValueSeaProgress +
-                                            "\n Rain values :" + rainfallText[0] + "\n Sunshine values: " + sunshineText
-                                            + "\n Big Mac Index: " + bigMacText + "\n Avg Standard Living: " + avgStdLivingText);
-                                }
+                                Cursor resultsOfWeather    = myDb.showResultsWeatherJanuary();
+                                Cursor resultsOfSeaWeather = myDb.showResultsSeaWeatherJanuary();
+                                Cursor resultsOfRainfall = myDb.showResultsRainfallJanuary();
 
-                               /*
-                                Cursor results = myDb.showResultsTempJanuary(weatherValueProgress);
+                                if (resultsOfWeather.getCount() == 0) {
 
-                                if (results.getCount() == 0) {
                                     showMessage("Error: ", "Nothing found.");
-                                    return;
-                                } else {
-                                    StringBuffer buffer = new StringBuffer();
-                                    while (results.moveToNext()) {
-                                        buffer.append("CityMonth code :" + results.getString(0) + "\n");
-                                        buffer.append("Month :" + results.getString(1) + "\n");
-                                        buffer.append("Value :" + results.getString(2) + "\n\n");
-                                    }
-                                    viewWhichMonthIsSelected.setText(" Values: " +buffer.toString());
-                                }*/
 
-                                break;
-                            case "February":
-                                viewWhichMonthIsSelected.setText(" Sea value: " + weatherValueSeaProgress);
+                                    return;
+
+                                } else {
+
+                                    //create a function that can verify if the Lists contain data
+                                    while (resultsOfWeather.moveToNext() && resultsOfSeaWeather.moveToNext()) {
+
+                                        citiesWeather.add(resultsOfWeather.getString(0));
+                                        System.out.println(citiesWeather.toString());
+
+                                        weatherValueCities.add(Integer.parseInt(resultsOfWeather.getString(1)));
+                                        System.out.println(weatherValueCities.toString());
+
+                                        citiesSeaWeather.add(resultsOfSeaWeather.getString(0));
+                                        System.out.println(citiesSeaWeather.toString());
+
+                                        seaWeatherValueCities.add(Integer.parseInt(resultsOfSeaWeather.getString(1)));
+                                        System.out.println(seaWeatherValueCities.toString());
+
+                                        citiesRainfall.add(resultsOfRainfall.getString(0));
+                                        System.out.println(citiesRainfall.toString());
+
+                                        rainfallValueCities.add(Integer.parseInt(resultsOfRainfall.getString(1)));
+                                        System.out.println(resultsOfRainfall.toString());
+
+                                    }
+
+                                    winnerValuesOfWeather    = checkSeaAndWeatherTemp(weatherValueCities,weatherValueProgress );
+                                    winnerValuesOfSeaWeather = checkSeaAndWeatherTemp(seaWeatherValueCities,weatherValueSeaProgress);
+                                    //winnerValuesOfRainfall   = checkOtherValues(rainfallValueCities,valueOfRainfall);
+
+                                    myWeatherMap    = insertValuesIntoHashMap(citiesWeather, winnerValuesOfWeather);
+                                    mySeaWeatherMap = insertValuesIntoHashMap(citiesSeaWeather,winnerValuesOfSeaWeather);
+
+                                    System.out.println(Arrays.asList(myWeatherMap));
+                                    System.out.println(Arrays.asList(mySeaWeatherMap));
+
+                                }
                         }
+
                     }
                 }
         );
     }
 
 }
+
+/*
+Part 2, how to convert that radio button to a numeric value. Really, there are many ways to do this. I think my preferred way would be an enum, but you could do
+any number of methods for string to int mapping, radio button id to int mapping, etc. You could even use tags. Looks like you have some commented code in there around tags.
+I would just set the tags in the xml, then use checkedButton.getTag() to get the value when you are ready to move on to the next page. Simple enough.
+* */

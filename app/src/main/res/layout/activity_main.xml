@@ -93,7 +93,6 @@
         </RadioGroup>
 
 
-
         <TextView
             android:id="@+id/questionTwo"
             android:text="What's your desired weather temperature?"
@@ -111,6 +110,7 @@
             android:progress="1"
             android:layout_below="@+id/questionTwo"
             />
+
 
         <TextView
             android:id="@+id/seeTheWeatherTemp"
@@ -171,32 +171,41 @@
                 android:id="@+id/regularRain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Regular rain/101+mm" />
+                android:text="Regular rain/101+mm"
+                android:tag="@integer/int5"
+                />
 
             <RadioButton
                 android:id="@+id/someRain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Some rain/51-100 mm"
+                android:tag="@integer/int4"
                 />
 
             <RadioButton
                 android:id="@+id/aLittleBitRain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="A little bit/26-50 mm" />
+                android:text="A little bit/26-50 mm"
+                android:tag="@integer/int3"
+                />
 
             <RadioButton
                 android:id="@+id/almostNothing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Almost nothing/6-25 mm" />
+                android:text="Almost nothing/6-25 mm"
+                android:tag="@integer/int2"
+                />
 
             <RadioButton
                 android:id="@+id/nothingAtAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nothing/0-5 mm"/>
+                android:text="Nothing/0-5 mm"
+                android:tag="@integer/int1"
+                />
         </RadioGroup>
 
         <TextView

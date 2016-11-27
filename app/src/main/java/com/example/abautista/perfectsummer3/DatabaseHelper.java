@@ -2,17 +2,13 @@ package com.example.abautista.perfectsummer3;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.os.Bundle;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import static android.content.Intent.*;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
     public DatabaseHelper(Context context) {
@@ -304,7 +300,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
 
         //insert the sea temp values seaAverageValues
-
         for (int i=0; i<seaAverageValues.size();i++) {
             contentValuesSeatemp.put(SEA_TEMP_COL_ONE, monthCities.get(i));
             contentValuesSeatemp.put(SEA_TEMP_COL_THREE, seaAverageValues.get(i));
@@ -344,6 +339,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             }
             db.insert(SUNSHINE_TABLE, null, contentValuesSunshine);
         }
+
+        //Queries for retrieval
+
+
+
 
     }
 
@@ -403,6 +403,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return results;
     }
 
+
     public Cursor showResultsRainfall(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor results = db.rawQuery("select * from "+RAINFALL_TABLE, null);
@@ -422,19 +423,35 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     }
 
-    public Cursor showResultsTempJanuary(int selectedWeather){
 
+    //QUERIES FOR SELECTING THE VALUES OF EACH MONTH
+    public Cursor showResultsWeatherJanuary(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor results = db.rawQuery("select "+WEATHER_TEMP_TABLE_COL_THREE+","+CITIES_COL_TWO+" from "+WEATHER_TEMP_TABLE+","+MONTHS_TABLE+
-                ","+MONTHS_CITIES_TABLE+","+CITIES_TABLE+" where "+MONTHS_COL_ONE+" = "+MONTHS_CITIES_COL_THREE+
-                " and "+MONTHS_CITIES_COL_ONE+" = "+WEATHER_TEMP_TABLE_COL_ONE+" and "+WEATHER_TEMP_TABLE_COL_TWO+
-                " = "+MONTHS_CITIES_COL_THREE+" and "+CITIES_COL_ONE+" = "+MONTHS_CITIES_COL_TWO, null);
-        return results;
+        Cursor results = db.rawQuery("select N_CITY, I_AVG_WEATHER from WEATHER_TABLE, MONTHS_CITIES, CITIES where WEATHER_TABLE.ID_MONTH='Jan' " +
+                "and MONTHS_CITIES.ID_MONTH=WEATHER_TABLE.ID_MONTH AND CITIES.ID_CITY=MONTHS_CITIES.ID_CITY and " +
+                "MONTHS_CITIES.CODE_CITY_MONTH=WEATHER_TABLE.CODE_CITY_MONTH",null);
 
+        return results;
+    }
+
+    public Cursor showResultsSeaWeatherJanuary(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor results = db.rawQuery("select N_CITY, I_AVG_SEA_TEMP from SEA_TEMP, MONTHS_CITIES, CITIES where SEA_TEMP.ID_MONTH='Jan' " +
+                "and MONTHS_CITIES.ID_MONTH=SEA_TEMP.ID_MONTH AND CITIES.ID_CITY=MONTHS_CITIES.ID_CITY and " +
+                "MONTHS_CITIES.CODE_CITY_MONTH=SEA_TEMP.CODE_CITY_MONTH",null);
+
+        return results;
 
     }
 
+    public Cursor showResultsRainfallJanuary(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor results = db.rawQuery("select N_CITY, I_AVG_RAINFALL from RAINFALL, MONTHS_CITIES, CITIES where RAINFALL.ID_MONTH='Jan' " +
+                "and MONTHS_CITIES.ID_RAINFALL.ID_MONTH AND CITIES.ID_CITY=MONTHS_CITIES.ID_CITY and " +
+                "MONTHS_CITIES.CODE_CITY_MONTH=RAINFALL.CODE_CITY_MONTH",null);
 
+        return results;
 
+    }
 
 }
