@@ -51,7 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public static final String WEATHER_TEMP_TABLE_COL_THREE  = "I_AVG_WEATHER";
 
     //create table rainfall_avg
-    public static final String RAINFALL_TABLE = "RAINFALL_AVG";
+    public static final String RAINFALL_TABLE = "RAINFALL";
     public static final String RAINFALL_AVG_COL_ONE = "CODE_CITY_MONTH";
     public static final String RAINFALL_AVG_COL_TWO = "ID_MONTH";
     public static final String RAINFALL_AVG_COL_THREE = "I_AVG_RAINFALL";
@@ -68,12 +68,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public static final String CONSUMER_PRICES_COL_TWO = "I_VALUE";
 
     //create average standard of living
-    public static final String AVERAGE_STANDARD_LIVING_TABLE = "AVERAGE_STANDARD_LIVING";
+    public static final String AVERAGE_STANDARD_LIVING_TABLE = "AVG_STD_LIVING";
     public static final String AVERAGE_STANDARD_LIVING_COL_ONE = "ID_CITY";
     public static final String AVERAGE_STANDARD_LIVING_COL_TWO = "I_VALUE";
 
     //create sunshine table
-    public static final String SUNSHINE_TABLE = "SUNSHINE_AVG";
+    public static final String SUNSHINE_TABLE = "SUNSHINE";
     public static final String SUNSHINE_COL_ONE = "CODE_CITY_MONTH";
     public static final String SUNSHINE_COL_TWO = "ID_MONTH";
     public static final String SUNSHINE_COL_THREE = "I_AVG_SUNSHINE";
@@ -444,14 +444,16 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     }
 
+    /*
+    CORREGIR NO SUCH TABLE RAINFALL
     public Cursor showResultsRainfallJanuary(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor results = db.rawQuery("select N_CITY, I_AVG_RAINFALL from RAINFALL, MONTHS_CITIES, CITIES where RAINFALL.ID_MONTH='Jan' " +
-                "and MONTHS_CITIES.ID_RAINFALL.ID_MONTH AND CITIES.ID_CITY=MONTHS_CITIES.ID_CITY and " +
+                "and MONTHS_CITIES.ID_MONTH=RAINFALL.ID_MONTH AND CITIES.ID_CITY=MONTHS_CITIES.ID_CITY and " +
                 "MONTHS_CITIES.CODE_CITY_MONTH=RAINFALL.CODE_CITY_MONTH",null);
 
         return results;
 
-    }
+    }*/
 
 }

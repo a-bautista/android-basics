@@ -1,4 +1,3 @@
-
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -15,6 +14,7 @@
         android:paddingTop="16dp"
         android:orientation="vertical">
 
+        <!--- *******************months*************************** -->
         <TextView
 
             android:id="@+id/questionOne"
@@ -92,25 +92,15 @@
 
         </RadioGroup>
 
+        <!-- ********************* end of months ********************************* -->
 
         <TextView
             android:id="@+id/questionTwo"
-            android:text="What's your desired weather temperature?"
+            android:text="What's your desired air temperature?"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:layout_below="@+id/controlTheMonths"/>
-
-        <SeekBar
-            android:id="@+id/seekTheWeatherTemp"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:max="60"
-            android:progress="1"
-            android:layout_below="@+id/questionTwo"
-            />
-
 
         <TextView
             android:id="@+id/seeTheWeatherTemp"
@@ -124,22 +114,25 @@
             android:layout_below="@+id/seekTheWeatherTemp"
             />
 
+        <SeekBar
+            android:id="@+id/seekTheWeatherTemp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:max="60"
+            android:progress="1"
+            android:layout_below="@+id/questionTwo"
+            />
+
+
+        <!-- ************** Desired sea temperature ***************** -->
         <TextView
             android:id="@+id/questionThree"
-            android:text="What's your desired sea weather temperature?"
+            android:text="What's your desired sea temperature?"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:layout_below="@+id/seeTheWeatherTemp"/>
-
-        <SeekBar
-            android:id="@+id/seekTheSeaWeatherTemp"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:max="40"
-            android:progress="1"
-            android:layout_below="@+id/questionThree"/>
 
         <TextView
             android:id="@+id/seeTheSeaWeatherTemp"
@@ -152,108 +145,194 @@
             android:paddingTop="16dp"
             android:layout_below="@+id/seekTheSeaWeatherTemp"/>
 
+        <SeekBar
+            android:id="@+id/seekTheSeaWeatherTemp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:max="40"
+            android:progress="1"
+            android:layout_below="@+id/questionThree"/>
+
+        <!-- ************* End of desired sea temperature ***************** -->
+
+        <!-- ****************** Rainfall values ************************** -->
+
         <TextView
             android:id="@+id/questionFour"
-            android:text="Any range of average rainfall?"
+            android:text="Range of average rainfall?"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:layout_below="@+id/seeTheSeaWeatherTemp"/>
+            android:layout_below="@+id/seekTheSeaWeatherTemp"/>
+
+        <TextView
+            android:id="@+id/seeTheRainfallValues"
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
+            android:layout_below="@+id/questionFour"/>
+
+        <SeekBar
+            android:id="@+id/seekTheRainfallValue"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:max="100"
+            android:progress="1"
+            android:layout_below="@+id/seekTheRainfallValues"
+            />
+
+        <TextView
+            android:id="@+id/relevanceQuestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="How much relevant is this for you?"
+            android:layout_below="@+id/seeTheRainfallValues"/>
 
         <RadioGroup
-            android:id="@+id/controlRainfall"
+            android:id="@+id/importanceOfYourChoice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_below="@+id/questionFour" >
+            android:layout_below="@+id/relevanceQuestion" >
 
             <RadioButton
-                android:id="@+id/regularRain"
+                android:id="@+id/veryHigh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Regular rain/101+mm"
+                android:text="Very high"
                 android:tag="@integer/int5"
                 />
 
             <RadioButton
-                android:id="@+id/someRain"
+                android:id="@+id/high"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Some rain/51-100 mm"
+                android:text="High"
                 android:tag="@integer/int4"
                 />
 
             <RadioButton
-                android:id="@+id/aLittleBitRain"
+                android:id="@+id/medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="A little bit/26-50 mm"
+                android:text="Medium"
                 android:tag="@integer/int3"
                 />
 
             <RadioButton
-                android:id="@+id/almostNothing"
+                android:id="@+id/low"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Almost nothing/6-25 mm"
+                android:text="Low"
                 android:tag="@integer/int2"
                 />
 
             <RadioButton
-                android:id="@+id/nothingAtAll"
+                android:id="@+id/irrelevant"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nothing/0-5 mm"
+                android:text="Irrelevant"
                 android:tag="@integer/int1"
                 />
         </RadioGroup>
 
+        <!-- **************** End of the rainfall values ********************* -->
+
+        <!-- ******************** Sunshine values *************************** -->
+
         <TextView
             android:id="@+id/questionFive"
-            android:text="Any range of daylight?"
+            android:text="Range of daylight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:layout_below="@+id/controlRainfall"/>
+            android:layout_below="@+id/importanceOfYourChoice"/>
+
+        <TextView
+            android:id="@+id/seeTheSunshineValues"
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
+            android:layout_below="@+id/questionFour"/>
+
+        <SeekBar
+            android:id="@+id/seekTheSunshineValue"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:max="12"
+            android:progress="0"
+            android:layout_below="@+id/questionFive"
+            />
+
+        <TextView
+            android:id="@+id/relevanceQuestionSunshine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="How much relevant is this for you?"
+            android:layout_below="@+id/seekTheSunshineValue"/>
+
 
         <RadioGroup
-            android:id="@+id/controlSunshine"
+            android:id="@+id/importanceOfYourChoiceSunshine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_below="@id/questionFive">
+            android:layout_below="@+id/relevanceQuestionSunshine" >
 
             <RadioButton
-                android:id="@+id/maxValSunshine"
+                android:id="@+id/veryHighSunshine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10-12h"/>
+                android:text="Very high"
+                android:tag="@integer/int5"
+                />
 
             <RadioButton
-                android:id="@+id/aboveMediumValSunshine"
+                android:id="@+id/highSunshine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="8-9h"/>
+                android:text="High"
+                android:tag="@integer/int4"
+                />
 
             <RadioButton
-                android:id="@+id/mediumValSunshine"
+                android:id="@+id/mediumSunshine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="6-7h"/>
+                android:text="Medium"
+                android:tag="@integer/int3"
+                />
 
             <RadioButton
-                android:id="@+id/lowValSunshine"
+                android:id="@+id/lowSunshine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4-5h"/>
+                android:text="Low"
+                android:tag="@integer/int2"
+                />
 
             <RadioButton
-                android:id="@+id/veryLowValSunshine"
+                android:id="@+id/irrelevantSunshine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0-3h"/>
-
+                android:text="Irrelevant"
+                android:tag="@integer/int1"
+                />
         </RadioGroup>
+
 
         <TextView
             android:id="@+id/questionSix"
@@ -261,7 +340,7 @@
             android:layout_height="wrap_content"
             android:text="Big Mac Index"
             android:textSize="14sp"
-            android:layout_below="@id/controlSunshine"/>
+            android:layout_below="@id/importanceOfYourChoiceSunshine"/>
 
         <RadioGroup
             android:id="@+id/controlBigMac"
@@ -305,7 +384,7 @@
             android:id="@+id/questionSeven"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Average of standard of living in a country"
+            android:text="Average standard of living ?"
             android:textSize="14sp"
             android:layout_below="@id/controlBigMac"/>
 
@@ -317,36 +396,37 @@
             android:layout_below="@+id/questionSeven">
 
             <RadioButton
-                android:id="@+id/veryHigh"
+                android:id="@+id/veryHigh2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0.850+"/>
 
             <RadioButton
-                android:id="@+id/high"
+                android:id="@+id/high2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0.750 - 0.849"/>
 
             <RadioButton
-                android:id="@+id/medium"
+                android:id="@+id/medium2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0.650 - 0.749"/>
 
             <RadioButton
-                android:id="@+id/low"
+                android:id="@+id/low2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0.550 - 0.649"/>
 
             <RadioButton
-                android:id="@+id/veryLow"
+                android:id="@+id/veryLow2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0.550 or less"/>
 
         </RadioGroup>
+
 
         <Button
             android:id="@+id/showResultsMonthsAndCities"

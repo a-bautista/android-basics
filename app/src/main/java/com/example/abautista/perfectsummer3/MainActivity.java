@@ -22,7 +22,10 @@ public class MainActivity extends AppCompatActivity {
 
     private static int ProgressBarValueWeather    = 0;
     private static int ProgressBarValueSeaWeather = 0;
+    private static int ProgressBarRainfall        = 0;
+    private static int ProgressBarSunshine        = 0;
 
+    //see the weather temperature
     private static SeekBar weatherSeekBar;
     private static TextView weatherTextView;
 
@@ -30,6 +33,15 @@ public class MainActivity extends AppCompatActivity {
     private static SeekBar seaWeatherSeekBar;
     private static TextView seaWeatherTextView;
 
+    //see the rainfall values
+    private static SeekBar seeRainfallSeekBar;
+    private static TextView rainfallTextView;
+
+    //see the sunshine values
+    private static SeekBar seeSunshineSeekBar;
+    private static TextView sunshineTextView;
+
+    //create buttons, radiogroups, textviews...
     private static Button showResultsMonthsAndCities, showResultsMonths, showResultsCities, showResultsConsumerPrices,
             showResultsAvgStdOfLiving, showResultsWeather, showResultsRainfall, showResultsSeaTemp,
             showResultsSunshine, showResults ;
@@ -37,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     private static RadioGroup selectedMonth, selectedRainfall, selectedSunshine, selectedBigMac, selectedAvgStds;
     private static RadioButton selectedMonthRb, selectedRainfallRb, selectedSunshineRb, selectedBigMacRb, selectedAvgStdsRb;
     private static TextView viewWhichMonthIsSelected;
-
 
     //create the database in the main activity
     private DatabaseHelper myDb;
@@ -47,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         seeTheWeatherTemp();
-        seeTheWeatherWater();
+        seeTheSeaWeather();
+        seeTheRainfall();
+        seeTheSunshine();
 
         //this calls the constructor of the database
         myDb = new DatabaseHelper(this);
@@ -68,29 +81,46 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //get and set methods for SeaWeather
     public int getProgressBarValueSeaWeather(){
         return ProgressBarValueSeaWeather;
     }
-
     public void setProgressBarValueSeaWeather(int progressBarValueSeaWeather){
         this.ProgressBarValueSeaWeather = progressBarValueSeaWeather;
     }
 
+    //get and set methods for Weather
     public int getProgressBarValueWeather(){
         return ProgressBarValueWeather;
     }
-
     public void setProgressBarValueWeather(int progressBarValueWeather){
         this.ProgressBarValueWeather = progressBarValueWeather;
     }
 
+    //get and set methods for Rainfall
+    public int getProgressBarRainfall(){
+        return ProgressBarRainfall;
+    }
+    public void setProgressBarRainfall(int progressBarRainfall){
+        this.ProgressBarRainfall = progressBarRainfall;
+    }
+
+    //get and set methods for Sunshine
+    public int getProgressBarSunshine(){
+        return ProgressBarSunshine;
+    }
+    public void setProgressBarSunshine(int progressBarSunshine){
+        this.ProgressBarSunshine = progressBarSunshine;
+    }
+
+    //Progress bars
     public void seeTheWeatherTemp (){
 
         weatherSeekBar  = (SeekBar)findViewById(R.id.seekTheWeatherTemp);
         weatherTextView = (TextView)findViewById(R.id.seeTheWeatherTemp);
         //This line helps us to see the initial value of the seekbar once it gets initialized.
-        weatherTextView.setText("Current weather: "+weatherSeekBar.getProgress()+
-                " / " + weatherSeekBar.getMax() +"ºC" );
+        weatherTextView.setText("Current weather: "+weatherSeekBar.getProgress() +"ºC" );
+        //weatherTextView.setText("Current weather: "+weatherSeekBar.getProgress()+" / " + weatherSeekBar.getMax() +"ºC" );
 
         //This piece of code helps us to see the current progress of the seekbar when you start moving the seekbar.
         weatherSeekBar.setOnSeekBarChangeListener(
@@ -103,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         progress_value = progress;
                         setProgressBarValueWeather(progress_value);
-                        weatherTextView.setText("Desired weather: " + progress + " / " + weatherSeekBar.getMax() +"ºC");
+                        weatherTextView.setText("Desired weather: " + progress  +"ºC");
                         //Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
                     }
 
@@ -115,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onStopTrackingTouch(SeekBar seekBar) {
-                        weatherTextView.setText("Current: " + progress_value + " / " + weatherSeekBar.getMax() +"ºC");
+                        weatherTextView.setText("Current: " + progress_value +"ºC");
                         //Toast.makeText(MainActivity.this, "SeekBar in StopTracking", Toast.LENGTH_LONG).show();
                     }
                 }
@@ -123,13 +153,13 @@ public class MainActivity extends AppCompatActivity {
         );// End of the piece of code: see the current progress of the seekbar.
     }
 
-    public void seeTheWeatherWater(){
+    public void seeTheSeaWeather(){
 
         seaWeatherSeekBar = (SeekBar) findViewById(R.id.seekTheSeaWeatherTemp);
         seaWeatherTextView = (TextView) findViewById(R.id.seeTheSeaWeatherTemp);
 
-        seaWeatherTextView.setText("Current sea weather: " + seaWeatherSeekBar.getProgress() +
-                " / " + seaWeatherSeekBar.getMax() + "ºC");
+        seaWeatherTextView.setText("Current sea weather: " + seaWeatherSeekBar.getProgress() + "ºC");
+
 
         seaWeatherSeekBar.setOnSeekBarChangeListener(
 
@@ -141,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         progress_value = progress;
                         setProgressBarValueSeaWeather(progress_value);
-                        seaWeatherTextView.setText("Desired sea weather: " + progress + " / " + seaWeatherSeekBar.getMax() + "ºC");
+                        seaWeatherTextView.setText("Desired sea weather: " + progress + "ºC");
                         //Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
                     }
 
@@ -153,7 +183,80 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onStopTrackingTouch(SeekBar seekBar) {
-                        seaWeatherTextView.setText("Current: " + progress_value + " / " + seaWeatherSeekBar.getMax() + "ºC");
+                        seaWeatherTextView.setText("Current: " + progress_value + "ºC");
+                        //Toast.makeText(MainActivity.this, "SeekBar in StopTracking", Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
+
+    }
+
+    public void seeTheRainfall(){
+
+        seeRainfallSeekBar = (SeekBar) findViewById(R.id.seekTheRainfallValue);
+        rainfallTextView = (TextView) findViewById(R.id.seeTheRainfallValues);
+
+        rainfallTextView.setText("Current rainfall values: " + seeRainfallSeekBar.getProgress() + " mm over month");
+
+        seeRainfallSeekBar.setOnSeekBarChangeListener(
+
+                new SeekBar.OnSeekBarChangeListener() {
+
+                    int progress_value;
+
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        progress_value = progress;
+                        setProgressBarRainfall(progress_value);
+                        rainfallTextView.setText("Rainfall value: " + progress + " mm over month");
+                        //Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                        Toast.makeText(MainActivity.this, "SeekBar in StartTracking", Toast.LENGTH_LONG).show();
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        rainfallTextView.setText("Current: " + progress_value + " mm over month");
+                        //Toast.makeText(MainActivity.this, "SeekBar in StopTracking", Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
+    }
+
+    public void seeTheSunshine(){
+
+        seeSunshineSeekBar = (SeekBar) findViewById(R.id.seekTheSunshineValue);
+        sunshineTextView = (TextView) findViewById(R.id.seeTheSunshineValues);
+
+        sunshineTextView.setText("Current sunshine daylight hours: ");
+
+        seeSunshineSeekBar.setOnSeekBarChangeListener(
+
+                new SeekBar.OnSeekBarChangeListener() {
+
+                    int progress_value;
+
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        progress_value = progress;
+                        setProgressBarSunshine(progress_value);
+                        sunshineTextView.setText("Current sunshine daylight hours: " + seeSunshineSeekBar.getProgress() + " average hours");
+                        //Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                        Toast.makeText(MainActivity.this, "SeekBar in StartTracking", Toast.LENGTH_LONG).show();
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        sunshineTextView.setText("Current sunshine daylight hours: " + seeSunshineSeekBar.getProgress() + " average hours");
                         //Toast.makeText(MainActivity.this, "SeekBar in StopTracking", Toast.LENGTH_LONG).show();
                     }
                 }
@@ -381,6 +484,7 @@ public class MainActivity extends AppCompatActivity {
         return accumulatedPoints;
     }
 
+    //to modify
     public List<Integer> checkOtherValues(List<Integer> listOfValues, Integer valueToCheck, Integer selectedValue){
 
         List<Integer> accumulatedPoints = new ArrayList<Integer>();
@@ -423,8 +527,8 @@ public class MainActivity extends AppCompatActivity {
 
         viewWhichMonthIsSelected    = (TextView)findViewById(R.id.displayMonth);
         selectedMonth               = (RadioGroup)findViewById(R.id.controlTheMonths);
-        selectedRainfall            = (RadioGroup)findViewById(R.id.controlRainfall);
-        selectedSunshine            = (RadioGroup)findViewById(R.id.controlSunshine);
+        //selectedRainfall            = (RadioGroup)findViewById(R.id.controlRainfall);
+        //selectedSunshine            = (RadioGroup)findViewById(R.id.controlSunshine);
         selectedBigMac              = (RadioGroup)findViewById(R.id.controlBigMac);
         selectedAvgStds             = (RadioGroup)findViewById(R.id.controlAverageOfLiving);
 
@@ -438,7 +542,8 @@ public class MainActivity extends AppCompatActivity {
 
                         int weatherValueProgress      = getProgressBarValueWeather();
                         int weatherValueSeaProgress   = getProgressBarValueSeaWeather();
-                        int month = selectedMonth.getCheckedRadioButtonId();
+                        int month                     = selectedMonth.getCheckedRadioButtonId();
+
                         //int rainfall                = selectedRainfall.getCheckedRadioButtonId();
                         //int sunshine                = selectedSunshine.getCheckedRadioButtonId();
                         //int bigMacIndex             = selectedBigMac.getCheckedRadioButtonId();
@@ -453,9 +558,9 @@ public class MainActivity extends AppCompatActivity {
                         //sunshine
 
                         //rainfall
-                        RadioGroup radioGroupRainfall     =  (RadioGroup) findViewById(R.id.controlRainfall);
-                        RadioButton checkedButtonRainfall = ((RadioButton)findViewById(radioGroupRainfall.getCheckedRadioButtonId()));
-                        Integer valueOfRainfall           = (Integer) checkedButtonRainfall.getTag();
+                        //RadioGroup radioGroupRainfall     =  (RadioGroup) findViewById(R.id.controlRainfall);
+                        //RadioButton checkedButtonRainfall = ((RadioButton)findViewById(radioGroupRainfall.getCheckedRadioButtonId()));
+                        //Integer valueOfRainfall           = (Integer) checkedButtonRainfall.getTag();
 
                         //selectedSunshineRb        = (RadioButton) findViewById(sunshine);
                         //String sunshineText       = (String) selectedSunshineRb.getText();
@@ -491,7 +596,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 Cursor resultsOfWeather    = myDb.showResultsWeatherJanuary();
                                 Cursor resultsOfSeaWeather = myDb.showResultsSeaWeatherJanuary();
-                                Cursor resultsOfRainfall = myDb.showResultsRainfallJanuary();
+                                //Cursor resultsOfRainfall = myDb.showResultsRainfallJanuary();
 
                                 if (resultsOfWeather.getCount() == 0) {
 
@@ -516,11 +621,11 @@ public class MainActivity extends AppCompatActivity {
                                         seaWeatherValueCities.add(Integer.parseInt(resultsOfSeaWeather.getString(1)));
                                         System.out.println(seaWeatherValueCities.toString());
 
-                                        citiesRainfall.add(resultsOfRainfall.getString(0));
+                                        /*citiesRainfall.add(resultsOfRainfall.getString(0));
                                         System.out.println(citiesRainfall.toString());
 
                                         rainfallValueCities.add(Integer.parseInt(resultsOfRainfall.getString(1)));
-                                        System.out.println(resultsOfRainfall.toString());
+                                        System.out.println(resultsOfRainfall.toString());*/
 
                                     }
 
