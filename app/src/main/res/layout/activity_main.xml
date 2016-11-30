@@ -182,7 +182,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:max="100"
+            android:max="5"
             android:progress="1"
             android:layout_below="@+id/seekTheRainfallValues"
             />
@@ -196,7 +196,7 @@
             android:layout_below="@+id/seeTheRainfallValues"/>
 
         <RadioGroup
-            android:id="@+id/importanceOfYourChoice"
+            android:id="@+id/importanceOfYourChoiceRainfall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -253,7 +253,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:layout_below="@+id/importanceOfYourChoice"/>
+            android:layout_below="@+id/importanceOfYourChoiceRainfall"/>
 
         <TextView
             android:id="@+id/seeTheSunshineValues"

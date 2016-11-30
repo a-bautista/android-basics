@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             showResultsAvgStdOfLiving, showResultsWeather, showResultsRainfall, showResultsSeaTemp,
             showResultsSunshine, showResults ;
 
-    private static RadioGroup selectedMonth, selectedRainfall, selectedSunshine, selectedPrices, selectedAvgStd;
+    private static RadioGroup selectedMonth, selectedSunshine, selectedPrices, selectedAvgStd, selectedRainfall;
     private static RadioButton selectedMonthRb, selectedRainfallRb, selectedSunshineRb, selectedPriceRb, selectedAvgStdRb;
     private static TextView viewWhichMonthIsSelected;
 
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         seeTheWeatherTemp();
         seeTheSeaWeather();
         seeTheRainfall();
-        //seeTheSunshine();
+        seeTheSunshine();
         seeThePrices();
         seeTheStdValues();
 
@@ -522,7 +522,7 @@ public class MainActivity extends AppCompatActivity {
                             while (results.moveToNext()) {
                                 buffer.append("CityMonth code :" + results.getString(0) + "\n");
                                 buffer.append("Month :" + results.getString(1) + "\n");
-                                buffer.append("Value :" + results.getString(2) + "\n\n");
+                                //buffer.append("Value :" + results.getString(2) + "\n\n");
                             }
                             showMessage("Data", buffer.toString());
                         }
@@ -668,14 +668,18 @@ public class MainActivity extends AppCompatActivity {
         return myMap;
     }
 
+    //Function for doing the scoring system handling
+    //public void doTheCalculationsForEachMonth(){}
+
     public void onClickListenerButton(){
 
         viewWhichMonthIsSelected    = (TextView)findViewById(R.id.displayMonth);
         selectedMonth               = (RadioGroup)findViewById(R.id.controlTheMonths);
-        //selectedRainfall            = (RadioGroup)findViewById(R.id.controlRainfall);
-        //selectedSunshine            = (RadioGroup)findViewById(R.id.controlSunshine);
+        selectedRainfall            = (RadioGroup)findViewById(R.id.importanceOfYourChoiceRainfall);
+        selectedSunshine            = (RadioGroup)findViewById(R.id.importanceOfYourChoiceSunshine);
         selectedPrices              = (RadioGroup)findViewById(R.id.importanceOfYourChoicePrices);
-        selectedAvgStd             = (RadioGroup)findViewById(R.id.importanceOfYourChoiceStdValues);
+        selectedAvgStd              = (RadioGroup)findViewById(R.id.importanceOfYourChoiceStdValues);
+
 
         showResults.setOnClickListener(
 
@@ -686,10 +690,11 @@ public class MainActivity extends AppCompatActivity {
 
                         int weatherValueProgress      = getProgressBarValueWeather();
                         int weatherValueSeaProgress   = getProgressBarValueSeaWeather();
+                        int sunshineValueProgress     = getProgressBarSunshine();
+                        int rainfallValueProgress     = getProgressBarRainfall();
                         int pricesValueProgress       = getProgressBarPrices();
                         int averageStdLiving          = getProgressBarStdLiving();
 
-                        //int rainfaillValueProgress    = getProgressBarRainfall();
 
                         //Check the month that corresponds with his selection
                         int monthNumber               = selectedMonth.getCheckedRadioButtonId();
@@ -706,35 +711,20 @@ public class MainActivity extends AppCompatActivity {
                         selectedAvgStdRb              = (RadioButton) findViewById(selectedStdLiving);
                         int avgStdRadioButton         = Integer.parseInt(selectedAvgStdRb.getTag().toString());
 
-                        //int rainfall                = selectedRainfall.getCheckedRadioButtonId();
-                        //int sunshine                = selectedSunshine.getCheckedRadioButtonId();
-                        //int bigMacIndex             = selectedBigMac.getCheckedRadioButtonId();
-                        //int avgStdLiving            = selectedAvgStds.getCheckedRadioButtonId();
+                        //Check the tag for the new value of the rainfall
+                        int selectedRainfallValue     =  selectedRainfall.getCheckedRadioButtonId();
+                        selectedRainfallRb            = (RadioButton) findViewById(selectedRainfallValue);
+                        int rainfallValueRadioButton  = Integer.parseInt(selectedRainfallRb.getTag().toString());
 
-
-                        //viewWhichMonthIsSelected.setText(" Button is: " + selectedMonthRb.getText());
-
-                        //sunshine
-
-                        //rainfall
-                        //RadioGroup radioGroupRainfall     =  (RadioGroup) findViewById(R.id.controlRainfall);
-                        //RadioButton checkedButtonRainfall = ((RadioButton)findViewById(radioGroupRainfall.getCheckedRadioButtonId()));
-                        //Integer valueOfRainfall           = (Integer) checkedButtonRainfall.getTag();
-
-                        //selectedSunshineRb        = (RadioButton) findViewById(sunshine);
-                        //String sunshineText       = (String) selectedSunshineRb.getText();
-
-                        //BigMac
-                        //selectedBigMacRb          = (RadioButton) findViewById(bigMacIndex);
-                        //String bigMacText         = (String) selectedBigMacRb.getText();
-
-                        //AvgStds
-                        //selectedAvgStdsRb         = (RadioButton) findViewById(avgStdLiving);
-                        //String avgStdLivingText   = (String) selectedAvgStdsRb.getText();
+                        //Check the tag for the new value of sunshine
+                        int selectedSunshineValue     = selectedSunshine.getCheckedRadioButtonId();
+                        selectedSunshineRb            = (RadioButton) findViewById(selectedSunshineValue);
+                        int sunshineValueRadioButton  = Integer.parseInt(selectedSunshineRb.getTag().toString());
 
                         HashMap<String, Integer> myWeatherMap = new HashMap<>();
                         HashMap<String, Integer> mySeaWeatherMap = new HashMap<>();
-                        //HashMap<String, Integer> myRainfallMap = new HashMap<>();
+                        HashMap<String, Integer> myRainfallMap = new HashMap<>();
+                        HashMap<String, Integer> mySunshineMap = new HashMap<>();
                         HashMap<String, Integer> myConsumerPricesMap = new HashMap<>();
                         HashMap<String, Integer> myAvgStdLivingMap = new HashMap<>();
 
@@ -745,18 +735,22 @@ public class MainActivity extends AppCompatActivity {
                         List<String> citiesSeaWeather = new ArrayList<String>();
                         List<Integer> seaWeatherValueCities = new ArrayList<Integer>();
 
+                        List<String> citiesRainfall = new ArrayList<String>();
+                        List<Integer> valuesOfRainfall = new ArrayList<Integer>();
+
+                        List<String> citiesSunshine = new ArrayList<String>();
+                        List<Integer> valuesOfSunshine = new ArrayList<Integer>();
+
                         List<String> citiesConsumerPrices = new ArrayList<String>();
                         List<Integer> valuesConsumerPrices = new ArrayList<Integer>();
 
                         List<String> citiesAvgStdLiving = new ArrayList<String>();
                         List<Integer> valuesAvgStdLiving = new ArrayList<Integer>();
 
-                        //List<String> citiesRainfall = new ArrayList<String>();
-                        //List<Integer> rainfallValueCities = new ArrayList<Integer>();
-
                         List<Integer> winnerValuesOfWeather          = new ArrayList<Integer>();
                         List<Integer> winnerValuesOfSeaWeather       = new ArrayList<Integer>();
-                        //List<Integer> winnerValuesOfRainfall       = new ArrayList<Integer>();
+                        List<Integer> winnerValuesOfRainfall         = new ArrayList<Integer>();
+                        List<Integer> winnerValuesOfSunshine         = new ArrayList<Integer>();
                         List<Integer> winnerValuesOfConsumerPrices   = new ArrayList<Integer>();
                         List<Integer> winnerValuesOfAvgStdLiving     = new ArrayList<Integer>();
 
@@ -767,9 +761,11 @@ public class MainActivity extends AppCompatActivity {
 
                                 Cursor resultsOfWeather        = myDb.showResultsWeatherJanuary();
                                 Cursor resultsOfSeaWeather     = myDb.showResultsSeaWeatherJanuary();
-                                //Cursor resultsOfRainfall     = myDb.showResultsRainfallJanuary();
+                                Cursor resultsOfRainfall       = myDb.showResultsRainfallJanuary();
+                                Cursor resultsOfSunshine       = myDb.showResultsSunshineJanuary();
                                 Cursor resultsOfConsumerPrices = myDb.showResultsPrices();
                                 Cursor resultsOfAvgStdLiving   = myDb.showAverageOfStdLiving();
+
                                 //StringBuffer buffer = new StringBuffer();
 
                                 if (resultsOfWeather.getCount() == 0) {
@@ -785,10 +781,10 @@ public class MainActivity extends AppCompatActivity {
                                     while (resultsOfWeather.moveToNext() && resultsOfSeaWeather.moveToNext()) {
 
                                         citiesWeather.add(resultsOfWeather.getString(0));
-                                        System.out.println(citiesWeather.toString());
+                                        System.out.println("Cities weather: " + citiesWeather.toString());
 
                                         weatherValueCities.add(Integer.parseInt(resultsOfWeather.getString(1)));
-                                        System.out.println(weatherValueCities.toString());
+                                        System.out.println("Weather values: " + weatherValueCities.toString());
 
                                         citiesSeaWeather.add(resultsOfSeaWeather.getString(0));
                                         System.out.println(citiesSeaWeather.toString());
@@ -796,15 +792,20 @@ public class MainActivity extends AppCompatActivity {
                                         seaWeatherValueCities.add(Integer.parseInt(resultsOfSeaWeather.getString(1)));
                                         System.out.println(seaWeatherValueCities.toString());
 
-                                        /*
-                                        citiesRainfall.add(resultsOfRainfall.getString(0));
-                                        System.out.println(citiesRainfall.toString());
-
-                                        rainfallValueCities.add(Integer.parseInt(resultsOfRainfall.getString(1)));
-                                        System.out.println(resultsOfRainfall.toString()); */
-
-
                                     }
+
+                                    while(resultsOfRainfall.moveToNext() && resultsOfSunshine.moveToNext()){
+
+                                        citiesRainfall.add(resultsOfRainfall.getString(0));
+                                        System.out.println("Rainfall city: " + citiesRainfall.toString());
+
+                                        valuesOfRainfall.add(Integer.parseInt(resultsOfRainfall.getString(1)));
+                                        System.out.println("Rainfall values: "+valuesOfRainfall.toString());
+
+                                        citiesSunshine.add(resultsOfSunshine.getString(0));
+                                        valuesOfSunshine.add(Integer.parseInt(resultsOfSunshine.getString(1)));
+                                    }
+
                                     //this generates the values for the consumers
                                     while(resultsOfConsumerPrices.moveToNext() && resultsOfAvgStdLiving.moveToNext()) {
 
@@ -824,23 +825,31 @@ public class MainActivity extends AppCompatActivity {
                                         //buffer.append("Value: "+resultsOfConsumerPrices.getString(1)+"\n");
                                     }
 
-                                    winnerValuesOfWeather    = checkSeaAndWeatherTemp(weatherValueCities,weatherValueProgress );
-                                    winnerValuesOfSeaWeather = checkSeaAndWeatherTemp(seaWeatherValueCities, weatherValueSeaProgress);
+                                    winnerValuesOfWeather        = checkSeaAndWeatherTemp(weatherValueCities,weatherValueProgress );
+                                    winnerValuesOfSeaWeather     = checkSeaAndWeatherTemp(seaWeatherValueCities, weatherValueSeaProgress);
 
-                                    //winnerValuesOfRainfall   = checkSeaAndWeatherTemp(rainfallValueCities,rainfaillValueProgress);
-                                    //winnerValuesOfSunshine
+                                    System.out.println("This is the rainfall value progress: "+rainfallValueProgress);
+                                    System.out.println("This is the value of the radio button: "+rainfallValueRadioButton);
+
+                                    winnerValuesOfRainfall       = checkOtherValues(valuesOfRainfall, rainfallValueProgress, rainfallValueRadioButton);
+                                    winnerValuesOfSunshine       = checkOtherValues(valuesOfSunshine, sunshineValueProgress, sunshineValueRadioButton);
 
                                     winnerValuesOfConsumerPrices = checkOtherValues(valuesConsumerPrices, pricesValueProgress, priceOfRadioButton);
                                     winnerValuesOfAvgStdLiving   = checkOtherValues(valuesAvgStdLiving, averageStdLiving, avgStdRadioButton);
 
-                                    myWeatherMap        = insertValuesIntoHashMap(citiesWeather, winnerValuesOfWeather);
-                                    mySeaWeatherMap     = insertValuesIntoHashMap(citiesSeaWeather,winnerValuesOfSeaWeather);
-                                    //myRainfallMap     = insertValuesIntoHashMap(citiesRainfall,winnerValuesOfRainfall);
-                                    myConsumerPricesMap = insertValuesIntoHashMap(citiesConsumerPrices,winnerValuesOfConsumerPrices);
-                                    myAvgStdLivingMap   = insertValuesIntoHashMap(citiesAvgStdLiving,winnerValuesOfAvgStdLiving);
+                                    myWeatherMap                 = insertValuesIntoHashMap(citiesWeather, winnerValuesOfWeather);
+                                    mySeaWeatherMap              = insertValuesIntoHashMap(citiesSeaWeather, winnerValuesOfSeaWeather);
+
+                                    myRainfallMap                = insertValuesIntoHashMap(citiesRainfall,winnerValuesOfRainfall);
+                                    mySunshineMap                = insertValuesIntoHashMap(citiesSunshine,winnerValuesOfSunshine);
+
+                                    myConsumerPricesMap          = insertValuesIntoHashMap(citiesConsumerPrices,winnerValuesOfConsumerPrices);
+                                    myAvgStdLivingMap            = insertValuesIntoHashMap(citiesAvgStdLiving,winnerValuesOfAvgStdLiving);
 
                                     System.out.println("Weather: "+Arrays.asList(myWeatherMap));
                                     System.out.println("Sea weather: " + Arrays.asList(mySeaWeatherMap));
+                                    System.out.println("Rainfall values: "+Arrays.asList(myRainfallMap));
+                                    System.out.println("Sunshine values: "+Arrays.asList(mySunshineMap));
                                     System.out.println("Prices values: "+Arrays.asList(myConsumerPricesMap));
                                     System.out.println("Avg standard of living values: "+Arrays.asList(myAvgStdLivingMap));
 

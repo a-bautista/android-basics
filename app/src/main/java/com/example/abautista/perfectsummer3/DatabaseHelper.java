@@ -1,4 +1,12 @@
 package com.example.abautista.perfectsummer3;
+/*
+================================ IMPORTANT TO READ ==============================
+*   The database must be deleted every time you start the application or just rename the DatabaseName.
+*   If the following error appears, just delete the database from the adv or rename it in this code.
+*   android.database.sqlite.SQLiteException: no such table: CONSUMER_PRICES (code 1): , while compiling: select * from CONSUMER_PRICES
+*
+* */
+
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -16,12 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
     }
 
-    //The database must be deleted every time you start the application.
-    //If the below error appears, just delete the database from the adv or rename it in this code.
-    //android.database.sqlite.SQLiteException: no such table: CONSUMER_PRICES (code 1): , while compiling: select * from CONSUMER_PRICES
-
-
-    private static final String DATABASE_NAME = "Destinations2.db";
+    private static final String DATABASE_NAME = "Destinations.db";
     private static final int DATABASE_VERSION = 1;
     public static final String TAG = "DatabaseHelper";
 
@@ -78,6 +81,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public static final String SUNSHINE_COL_TWO = "ID_MONTH";
     public static final String SUNSHINE_COL_THREE = "I_AVG_SUNSHINE";
 
+
     //============================ CREATE TABLES QUERIES =========================================
 
     private static final String SQL_CREATE_TABLE_MONTHS ="CREATE TABLE "+ MONTHS_TABLE +"("
@@ -125,7 +129,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             + SUNSHINE_COL_THREE + " INTEGER NOT NULL"
             + ");";
 
-
     private static final String SQL_CREATE_TABLE_LIVING_STANDARDS = "CREATE TABLE "+ AVERAGE_STANDARD_LIVING_TABLE + "("
             + AVERAGE_STANDARD_LIVING_COL_ONE + " TEXT PRIMARY KEY, "
             + AVERAGE_STANDARD_LIVING_COL_TWO + " INTEGER NOT NULL "
@@ -154,6 +157,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(SQL_CREATE_TABLE_SUNSHINE);
         db.execSQL(SQL_CREATE_TABLE_LIVING_STANDARDS);
         db.execSQL(SQL_CREATE_TABLE_CONSUMER_PRICES);
+        //db.execSQL(SQL_CREATE_TABLE_DAYLIGHT);
 
 
         //================================== INSERT VALUES QUERIES ================================
@@ -339,9 +343,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             }
             db.insert(SUNSHINE_TABLE, null, contentValuesSunshine);
         }
-
         //Queries for retrieval
-
     }
 
 
@@ -400,15 +402,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return results;
     }
 
-
-    //This is not working
     public Cursor showResultsRainfall(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor results = db.rawQuery("select * from "+RAINFALL_TABLE, null);
         return results;
     }
 
-    //This is not working
     public Cursor showResultsSunshine(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor results = db.rawQuery("select * from SUNSHINE", null);
@@ -423,7 +422,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
 
-    //------------------- QUERIES FOR SELECTING THE VALUES OF EACH MONTH ------------------------//
+    //----------- QUERIES FOR SELECTING THE VALUES FOR EACH MONTH OF WEATHER AND SEA -------------//
     public Cursor showResultsWeatherJanuary(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor results = db.rawQuery("select N_CITY, I_AVG_WEATHER from WEATHER_TABLE, MONTHS_CITIES, CITIES where WEATHER_TABLE.ID_MONTH='Jan' " +
@@ -443,7 +442,28 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     }
 
-    //----------------- End of queries for slecting the values for each month --------------------//
+
+    public Cursor showResultsRainfallJanuary(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor results = db.rawQuery("select N_CITY, I_AVG_RAINFALL from RAINFALL, MONTHS_CITIES, CITIES where RAINFALL.ID_MONTH='Jan' " +
+                "and MONTHS_CITIES.ID_MONTH=RAINFALL.ID_MONTH AND CITIES.ID_CITY=MONTHS_CITIES.ID_CITY and " +
+                "MONTHS_CITIES.CODE_CITY_MONTH=RAINFALL.CODE_CITY_MONTH",null);
+
+        return results;
+
+    }
+
+    public Cursor showResultsSunshineJanuary(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor results = db.rawQuery("select N_CITY, I_AVG_SUNSHINE from SUNSHINE, MONTHS_CITIES, CITIES where SUNSHINE.ID_MONTH='Jan' " +
+                "and MONTHS_CITIES.ID_MONTH=SUNSHINE.ID_MONTH AND CITIES.ID_CITY=MONTHS_CITIES.ID_CITY and " +
+                "MONTHS_CITIES.CODE_CITY_MONTH=SUNSHINE.CODE_CITY_MONTH",null);
+
+        return results;
+
+    }
+
+    //----------------- End of queries for selecting the values for each month --------------------//
 
     public Cursor showResultsPrices(){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -455,17 +475,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor results = db.rawQuery("select N_CITY, I_VALUE from AVERAGE_STANDARD_LIVING, CITIES where AVERAGE_STANDARD_LIVING.ID_CITY=CITIES.ID_CITY",null);
         return results;
-    }
-
-    //CORREGIR NO SUCH TABLE RAINFALL
-    public Cursor showResultsRainfallJanuary(){
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor results = db.rawQuery("select N_CITY, I_AVG_RAINFALL from RAINFALL, MONTHS_CITIES, CITIES where RAINFALL.ID_MONTH='Jan' " +
-                "and MONTHS_CITIES.ID_MONTH=RAINFALL.ID_MONTH AND CITIES.ID_CITY=MONTHS_CITIES.ID_CITY and " +
-                "MONTHS_CITIES.CODE_CITY_MONTH=RAINFALL.CODE_CITY_MONTH",null);
-
-        return results;
-
     }
 
 }
