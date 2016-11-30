@@ -333,52 +333,99 @@
                 />
         </RadioGroup>
 
+        <!-- **************** End of sunshine values ************** -->
+
+        <!-- *************** Prices with occidental world ********* -->
 
         <TextView
             android:id="@+id/questionSix"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Big Mac Index"
+            android:text="Prices with occidental world"
             android:textSize="14sp"
             android:layout_below="@id/importanceOfYourChoiceSunshine"/>
 
+        <TextView
+            android:id="@+id/seeThePriceValues"
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
+            android:layout_below="@+id/importanceOfYourChoiceSunshine"/>
+
+        <SeekBar
+            android:id="@+id/seekThePricesValues"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:max="5"
+            android:progress="1"
+            android:layout_below="@+id/seeThePriceValue"
+            />
+
+        <TextView
+            android:id="@+id/relevanceQuestionPrices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="How much relevant is this for you?"
+            android:layout_below="@+id/seekThePricesValues"/>
+
+
         <RadioGroup
-            android:id="@+id/controlBigMac"
+            android:id="@+id/importanceOfYourChoicePrices"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_below="@id/questionSix">
+            android:layout_below="@+id/relevanceQuestionPrices" >
 
             <RadioButton
-                android:id="@+id/quiteExpensive"
+                android:id="@+id/veryHighPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$3.5 - 4.0"/>
+                android:text="Very high"
+                android:tag="@integer/int5"
+                />
 
             <RadioButton
-                android:id="@+id/expensive"
+                android:id="@+id/highPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$3.0 - 3.5"/>
+                android:text="High"
+                android:tag="@integer/int4"
+                />
 
             <RadioButton
-                android:id="@+id/moderate"
+                android:id="@+id/mediumPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$2.5 - 3.0"/>
+                android:text="Medium"
+                android:tag="@integer/int3"
+                />
 
             <RadioButton
-                android:id="@+id/cheap"
+                android:id="@+id/lowPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$2.0 - 2.5"/>
+                android:text="Low"
+                android:tag="@integer/int2"
+                />
 
             <RadioButton
-                android:id="@+id/veryCheap"
+                android:id="@+id/irrelevantPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$0 - 2.0"/>
+                android:text="Irrelevant"
+                android:tag="@integer/int1"
+                />
         </RadioGroup>
+
+        <!-- ******** End of prices with occidental world **************-->
+
+        <!-- ***************** Standard of living **********************-->
 
         <TextView
             android:id="@+id/questionSeven"
@@ -386,47 +433,88 @@
             android:layout_height="wrap_content"
             android:text="Average standard of living ?"
             android:textSize="14sp"
-            android:layout_below="@id/controlBigMac"/>
+            android:layout_below="@id/importanceOfYourChoicePrices"/>
+
+
+        <TextView
+            android:id="@+id/seeTheStdOfLivingValues"
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
+            android:layout_below="@+id/questionSeven"/>
+
+        <SeekBar
+            android:id="@+id/seekTheStdValues"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:max="5"
+            android:progress="1"
+            android:layout_below="@+id/seeTheStdOfLivingValues"
+            />
+
+        <TextView
+            android:id="@+id/relevanceQuestionStdValues"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="How much relevant is this for you?"
+            android:layout_below="@+id/seekTheStdValues"/>
+
 
         <RadioGroup
-            android:id="@+id/controlAverageOfLiving"
+            android:id="@+id/importanceOfYourChoiceStdValues"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_below="@+id/questionSeven">
+            android:layout_below="@+id/relevanceQuestionStdValues" >
 
             <RadioButton
-                android:id="@+id/veryHigh2"
+                android:id="@+id/veryHighValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.850+"/>
+                android:text="Very high"
+                android:tag="@integer/int5"
+                />
 
             <RadioButton
-                android:id="@+id/high2"
+                android:id="@+id/highValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.750 - 0.849"/>
+                android:text="High"
+                android:tag="@integer/int4"
+                />
 
             <RadioButton
-                android:id="@+id/medium2"
+                android:id="@+id/mediumValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.650 - 0.749"/>
+                android:text="Medium"
+                android:tag="@integer/int3"
+                />
 
             <RadioButton
-                android:id="@+id/low2"
+                android:id="@+id/lowValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.550 - 0.649"/>
+                android:text="Low"
+                android:tag="@integer/int2"
+                />
 
             <RadioButton
-                android:id="@+id/veryLow2"
+                android:id="@+id/irrelevantValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.550 or less"/>
-
+                android:text="Irrelevant"
+                android:tag="@integer/int1"
+                />
         </RadioGroup>
 
+        <!-- ************ End of Standard of Living *************-->
 
         <Button
             android:id="@+id/showResultsMonthsAndCities"

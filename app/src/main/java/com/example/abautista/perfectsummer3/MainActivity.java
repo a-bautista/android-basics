@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private static int ProgressBarValueSeaWeather = 0;
     private static int ProgressBarRainfall        = 0;
     private static int ProgressBarSunshine        = 0;
+    private static int ProgressBarPrices          = 0;
+    private static int ProgressBarStdLiving       = 0;
 
     //see the weather temperature
     private static SeekBar weatherSeekBar;
@@ -41,13 +43,21 @@ public class MainActivity extends AppCompatActivity {
     private static SeekBar seeSunshineSeekBar;
     private static TextView sunshineTextView;
 
+    //see the prices values
+    private static SeekBar seePricesSeekBar;
+    private static TextView seePricesTextView;
+
+    //see the StdLiving values
+    private static SeekBar seeStdValuesSeekBar;
+    private static TextView seeStdValuesTextView;
+
     //create buttons, radiogroups, textviews...
     private static Button showResultsMonthsAndCities, showResultsMonths, showResultsCities, showResultsConsumerPrices,
             showResultsAvgStdOfLiving, showResultsWeather, showResultsRainfall, showResultsSeaTemp,
             showResultsSunshine, showResults ;
 
-    private static RadioGroup selectedMonth, selectedRainfall, selectedSunshine, selectedBigMac, selectedAvgStds;
-    private static RadioButton selectedMonthRb, selectedRainfallRb, selectedSunshineRb, selectedBigMacRb, selectedAvgStdsRb;
+    private static RadioGroup selectedMonth, selectedRainfall, selectedSunshine, selectedPrices, selectedAvgStd;
+    private static RadioButton selectedMonthRb, selectedRainfallRb, selectedSunshineRb, selectedPriceRb, selectedAvgStdRb;
     private static TextView viewWhichMonthIsSelected;
 
     //create the database in the main activity
@@ -60,7 +70,9 @@ public class MainActivity extends AppCompatActivity {
         seeTheWeatherTemp();
         seeTheSeaWeather();
         seeTheRainfall();
-        seeTheSunshine();
+        //seeTheSunshine();
+        seeThePrices();
+        seeTheStdValues();
 
         //this calls the constructor of the database
         myDb = new DatabaseHelper(this);
@@ -111,6 +123,22 @@ public class MainActivity extends AppCompatActivity {
     }
     public void setProgressBarSunshine(int progressBarSunshine){
         this.ProgressBarSunshine = progressBarSunshine;
+    }
+
+    //get and set methods for Prices compared with occidental world
+    public int getProgressBarPrices(){
+        return ProgressBarPrices;
+    }
+    public void setProgressBarPrices(int progressBarPrices){
+        this.ProgressBarPrices = progressBarPrices;
+    }
+
+    //get and set methods for Standard living values
+    public int getProgressBarStdLiving(){
+        return ProgressBarStdLiving;
+    }
+    public void setProgressBarStdLiving(int progressBarStdLiving){
+        this.ProgressBarStdLiving = progressBarStdLiving;
     }
 
     //Progress bars
@@ -261,6 +289,79 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+
+    }
+
+    public void seeThePrices(){
+        seePricesSeekBar = (SeekBar) findViewById(R.id.seekThePricesValues);
+        seePricesTextView = (TextView) findViewById(R.id.seeThePriceValues);
+
+        seePricesTextView.setText("Prices compared with occidental world: ");
+
+        seePricesSeekBar.setOnSeekBarChangeListener(
+
+                new SeekBar.OnSeekBarChangeListener() {
+
+                    int progress_value;
+
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        progress_value = progress;
+                        setProgressBarPrices(progress_value);
+                        seePricesTextView.setText("Current prices: " + seePricesSeekBar.getProgress());
+                        //Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                        Toast.makeText(MainActivity.this, "SeekBar in StartTracking", Toast.LENGTH_LONG).show();
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        seePricesTextView.setText("Current prices: " + seePricesSeekBar.getProgress());
+                        //Toast.makeText(MainActivity.this, "SeekBar in StopTracking", Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
+
+    }
+
+    public void seeTheStdValues(){
+        seeStdValuesSeekBar = (SeekBar) findViewById(R.id.seekTheStdValues);
+        seeStdValuesTextView = (TextView) findViewById(R.id.seeTheStdOfLivingValues);
+
+        seeStdValuesTextView.setText("Index comparison of standard of living: ");
+
+        seeStdValuesSeekBar.setOnSeekBarChangeListener(
+
+                new SeekBar.OnSeekBarChangeListener() {
+
+                    int progress_value;
+
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        progress_value = progress;
+                        setProgressBarStdLiving(progress_value);
+                        seeStdValuesTextView.setText("Current standard: " + seeStdValuesSeekBar.getProgress());
+                        //Toast.makeText(MainActivity.this, "SeekBar in progress", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                        Toast.makeText(MainActivity.this, "SeekBar in StartTracking", Toast.LENGTH_LONG).show();
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        seeStdValuesTextView.setText("Current standard: " + seeStdValuesSeekBar.getProgress());
+                        //Toast.makeText(MainActivity.this, "SeekBar in StopTracking", Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
+
 
     }
 
@@ -484,28 +585,73 @@ public class MainActivity extends AppCompatActivity {
         return accumulatedPoints;
     }
 
-    //to modify
-    public List<Integer> checkOtherValues(List<Integer> listOfValues, Integer valueToCheck, Integer selectedValue){
+
+    //Systems for doing the scoring system
+    public List<Integer> checkOtherValues(List<Integer> listOfValues, Integer valueToCheck, Integer numberOfPoints){
 
         List<Integer> accumulatedPoints = new ArrayList<Integer>();
-        Integer tempValue =0;
+        Integer tempValue  = 0;
+        //Integer tempValueForTheSecondPoints = 0;
 
         for (int i=0; i<listOfValues.size(); i++){
 
             tempValue = listOfValues.get(i);
 
-            if((java.lang.Math.abs(tempValue-valueToCheck)==0) && selectedValue==4)
-                accumulatedPoints.add(5);
-            else if (java.lang.Math.abs(tempValue-valueToCheck)==1 && selectedValue==3)
-                accumulatedPoints.add(4);
-            else if (java.lang.Math.abs(tempValue-valueToCheck)==2 && selectedValue==2)
-                accumulatedPoints.add(3);
-            else if (java.lang.Math.abs(tempValue-valueToCheck)==3 && selectedValue==1)
-                accumulatedPoints.add(2);
-            else if (java.lang.Math.abs(tempValue-valueToCheck)==4 && selectedValue==0)
-                accumulatedPoints.add(1);
-            else
+            if((java.lang.Math.abs(tempValue-valueToCheck)==0) && (numberOfPoints==4))
+                accumulatedPoints.add(5*4);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==1 && (numberOfPoints==4))
+                accumulatedPoints.add(4*4);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==2 && (numberOfPoints==4))
+                accumulatedPoints.add(3*4);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==3 && (numberOfPoints==4))
+                accumulatedPoints.add(2*4);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==4 && (numberOfPoints==4))
+                accumulatedPoints.add(1*4);
+
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==0 && (numberOfPoints==3))
+                accumulatedPoints.add(5*3);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==1 && (numberOfPoints==3))
+                accumulatedPoints.add(4*3);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==2 && (numberOfPoints==3))
+                accumulatedPoints.add(3*3);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==3 && (numberOfPoints==3))
+                accumulatedPoints.add(2*3);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==4 && (numberOfPoints==3))
+                accumulatedPoints.add(1*3);
+
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==0 && (numberOfPoints==2))
+                accumulatedPoints.add(5*2);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==1 && (numberOfPoints==2))
+                accumulatedPoints.add(4*2);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==2 && (numberOfPoints==2))
+                accumulatedPoints.add(3*2);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==3 && (numberOfPoints==2))
+                accumulatedPoints.add(2*2);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==4 && (numberOfPoints==2))
+                accumulatedPoints.add(1*2);
+
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==0 && (numberOfPoints==1))
+                accumulatedPoints.add(5*1);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==1 && (numberOfPoints==1))
+                accumulatedPoints.add(4*1);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==2 && (numberOfPoints==1))
+                accumulatedPoints.add(3*1);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==3 && (numberOfPoints==1))
+                accumulatedPoints.add(2*1);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==4 && (numberOfPoints==1))
+                accumulatedPoints.add(1*1);
+
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==0 && (numberOfPoints==0))
                 accumulatedPoints.add(0);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==1 && (numberOfPoints==0))
+                accumulatedPoints.add(0);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==2 && (numberOfPoints==0))
+                accumulatedPoints.add(0);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==3 && (numberOfPoints==0))
+                accumulatedPoints.add(0);
+            else if (java.lang.Math.abs(tempValue-valueToCheck)==4 && (numberOfPoints==0))
+                accumulatedPoints.add(0);
+
         }
 
         return accumulatedPoints;
@@ -522,15 +668,14 @@ public class MainActivity extends AppCompatActivity {
         return myMap;
     }
 
-
     public void onClickListenerButton(){
 
         viewWhichMonthIsSelected    = (TextView)findViewById(R.id.displayMonth);
         selectedMonth               = (RadioGroup)findViewById(R.id.controlTheMonths);
         //selectedRainfall            = (RadioGroup)findViewById(R.id.controlRainfall);
         //selectedSunshine            = (RadioGroup)findViewById(R.id.controlSunshine);
-        selectedBigMac              = (RadioGroup)findViewById(R.id.controlBigMac);
-        selectedAvgStds             = (RadioGroup)findViewById(R.id.controlAverageOfLiving);
+        selectedPrices              = (RadioGroup)findViewById(R.id.importanceOfYourChoicePrices);
+        selectedAvgStd             = (RadioGroup)findViewById(R.id.importanceOfYourChoiceStdValues);
 
         showResults.setOnClickListener(
 
@@ -539,10 +684,27 @@ public class MainActivity extends AppCompatActivity {
 
                     public void onClick(View view) {
 
-
                         int weatherValueProgress      = getProgressBarValueWeather();
                         int weatherValueSeaProgress   = getProgressBarValueSeaWeather();
-                        int month                     = selectedMonth.getCheckedRadioButtonId();
+                        int pricesValueProgress       = getProgressBarPrices();
+                        int averageStdLiving          = getProgressBarStdLiving();
+
+                        //int rainfaillValueProgress    = getProgressBarRainfall();
+
+                        //Check the month that corresponds with his selection
+                        int monthNumber               = selectedMonth.getCheckedRadioButtonId();
+                        selectedMonthRb               = (RadioButton) findViewById(monthNumber);
+                        String monthText              = (String) selectedMonthRb.getText();
+
+                        //Check the tag for the new value of the prices of the cities
+                        int selectedPrice             = selectedPrices.getCheckedRadioButtonId();
+                        selectedPriceRb               = (RadioButton) findViewById(selectedPrice);
+                        int priceOfRadioButton        =  Integer.parseInt(selectedPriceRb.getTag().toString());
+
+                        //Check the tag for the new value of the average standards of living
+                        int selectedStdLiving         = selectedAvgStd.getCheckedRadioButtonId();
+                        selectedAvgStdRb              = (RadioButton) findViewById(selectedStdLiving);
+                        int avgStdRadioButton         = Integer.parseInt(selectedAvgStdRb.getTag().toString());
 
                         //int rainfall                = selectedRainfall.getCheckedRadioButtonId();
                         //int sunshine                = selectedSunshine.getCheckedRadioButtonId();
@@ -550,9 +712,6 @@ public class MainActivity extends AppCompatActivity {
                         //int avgStdLiving            = selectedAvgStds.getCheckedRadioButtonId();
 
 
-                        //months
-                        selectedMonthRb              = (RadioButton) findViewById(month);
-                        String monthText             = (String) selectedMonthRb.getText();
                         //viewWhichMonthIsSelected.setText(" Button is: " + selectedMonthRb.getText());
 
                         //sunshine
@@ -575,7 +734,10 @@ public class MainActivity extends AppCompatActivity {
 
                         HashMap<String, Integer> myWeatherMap = new HashMap<>();
                         HashMap<String, Integer> mySeaWeatherMap = new HashMap<>();
-                        HashMap<String, Integer> myRainfallMap = new HashMap<>();
+                        //HashMap<String, Integer> myRainfallMap = new HashMap<>();
+                        HashMap<String, Integer> myConsumerPricesMap = new HashMap<>();
+                        HashMap<String, Integer> myAvgStdLivingMap = new HashMap<>();
+
 
                         List<String> citiesWeather = new ArrayList<String>();
                         List<Integer> weatherValueCities = new ArrayList<Integer>();
@@ -583,20 +745,32 @@ public class MainActivity extends AppCompatActivity {
                         List<String> citiesSeaWeather = new ArrayList<String>();
                         List<Integer> seaWeatherValueCities = new ArrayList<Integer>();
 
-                        List<String> citiesRainfall = new ArrayList<String>();
-                        List<Integer> rainfallValueCities = new ArrayList<Integer>();
+                        List<String> citiesConsumerPrices = new ArrayList<String>();
+                        List<Integer> valuesConsumerPrices = new ArrayList<Integer>();
 
-                        List<Integer> winnerValuesOfWeather = new ArrayList<Integer>();
-                        List<Integer> winnerValuesOfSeaWeather = new ArrayList<Integer>();
-                        List<Integer> winnerValuesOfRainfall = new ArrayList<Integer>();
+                        List<String> citiesAvgStdLiving = new ArrayList<String>();
+                        List<Integer> valuesAvgStdLiving = new ArrayList<Integer>();
+
+                        //List<String> citiesRainfall = new ArrayList<String>();
+                        //List<Integer> rainfallValueCities = new ArrayList<Integer>();
+
+                        List<Integer> winnerValuesOfWeather          = new ArrayList<Integer>();
+                        List<Integer> winnerValuesOfSeaWeather       = new ArrayList<Integer>();
+                        //List<Integer> winnerValuesOfRainfall       = new ArrayList<Integer>();
+                        List<Integer> winnerValuesOfConsumerPrices   = new ArrayList<Integer>();
+                        List<Integer> winnerValuesOfAvgStdLiving     = new ArrayList<Integer>();
+
 
                         switch (monthText) {
 
                             case "January":
 
-                                Cursor resultsOfWeather    = myDb.showResultsWeatherJanuary();
-                                Cursor resultsOfSeaWeather = myDb.showResultsSeaWeatherJanuary();
-                                //Cursor resultsOfRainfall = myDb.showResultsRainfallJanuary();
+                                Cursor resultsOfWeather        = myDb.showResultsWeatherJanuary();
+                                Cursor resultsOfSeaWeather     = myDb.showResultsSeaWeatherJanuary();
+                                //Cursor resultsOfRainfall     = myDb.showResultsRainfallJanuary();
+                                Cursor resultsOfConsumerPrices = myDb.showResultsPrices();
+                                Cursor resultsOfAvgStdLiving   = myDb.showAverageOfStdLiving();
+                                //StringBuffer buffer = new StringBuffer();
 
                                 if (resultsOfWeather.getCount() == 0) {
 
@@ -607,6 +781,7 @@ public class MainActivity extends AppCompatActivity {
                                 } else {
 
                                     //create a function that can verify if the Lists contain data
+                                    //This generates the values for the weather and sea weather
                                     while (resultsOfWeather.moveToNext() && resultsOfSeaWeather.moveToNext()) {
 
                                         citiesWeather.add(resultsOfWeather.getString(0));
@@ -621,36 +796,61 @@ public class MainActivity extends AppCompatActivity {
                                         seaWeatherValueCities.add(Integer.parseInt(resultsOfSeaWeather.getString(1)));
                                         System.out.println(seaWeatherValueCities.toString());
 
-                                        /*citiesRainfall.add(resultsOfRainfall.getString(0));
+                                        /*
+                                        citiesRainfall.add(resultsOfRainfall.getString(0));
                                         System.out.println(citiesRainfall.toString());
 
                                         rainfallValueCities.add(Integer.parseInt(resultsOfRainfall.getString(1)));
-                                        System.out.println(resultsOfRainfall.toString());*/
+                                        System.out.println(resultsOfRainfall.toString()); */
 
+
+                                    }
+                                    //this generates the values for the consumers
+                                    while(resultsOfConsumerPrices.moveToNext() && resultsOfAvgStdLiving.moveToNext()) {
+
+                                        citiesConsumerPrices.add(resultsOfConsumerPrices.getString(0));
+                                        System.out.println(citiesConsumerPrices.toString());
+
+                                        valuesConsumerPrices.add(Integer.parseInt(resultsOfConsumerPrices.getString(1)));
+                                        System.out.println(valuesConsumerPrices.toString());
+
+                                        citiesAvgStdLiving.add(resultsOfAvgStdLiving.getString(0));
+                                        System.out.println(citiesAvgStdLiving.toString());
+
+                                        valuesAvgStdLiving.add(Integer.parseInt(resultsOfAvgStdLiving.getString(1)));
+                                        System.out.println(valuesAvgStdLiving.toString());
+
+                                        //buffer.append("City: "+resultsOfConsumerPrices.getString(0)+"\n");
+                                        //buffer.append("Value: "+resultsOfConsumerPrices.getString(1)+"\n");
                                     }
 
                                     winnerValuesOfWeather    = checkSeaAndWeatherTemp(weatherValueCities,weatherValueProgress );
-                                    winnerValuesOfSeaWeather = checkSeaAndWeatherTemp(seaWeatherValueCities,weatherValueSeaProgress);
-                                    //winnerValuesOfRainfall   = checkOtherValues(rainfallValueCities,valueOfRainfall);
+                                    winnerValuesOfSeaWeather = checkSeaAndWeatherTemp(seaWeatherValueCities, weatherValueSeaProgress);
 
-                                    myWeatherMap    = insertValuesIntoHashMap(citiesWeather, winnerValuesOfWeather);
-                                    mySeaWeatherMap = insertValuesIntoHashMap(citiesSeaWeather,winnerValuesOfSeaWeather);
+                                    //winnerValuesOfRainfall   = checkSeaAndWeatherTemp(rainfallValueCities,rainfaillValueProgress);
+                                    //winnerValuesOfSunshine
 
-                                    System.out.println(Arrays.asList(myWeatherMap));
-                                    System.out.println(Arrays.asList(mySeaWeatherMap));
+                                    winnerValuesOfConsumerPrices = checkOtherValues(valuesConsumerPrices, pricesValueProgress, priceOfRadioButton);
+                                    winnerValuesOfAvgStdLiving   = checkOtherValues(valuesAvgStdLiving, averageStdLiving, avgStdRadioButton);
+
+                                    myWeatherMap        = insertValuesIntoHashMap(citiesWeather, winnerValuesOfWeather);
+                                    mySeaWeatherMap     = insertValuesIntoHashMap(citiesSeaWeather,winnerValuesOfSeaWeather);
+                                    //myRainfallMap     = insertValuesIntoHashMap(citiesRainfall,winnerValuesOfRainfall);
+                                    myConsumerPricesMap = insertValuesIntoHashMap(citiesConsumerPrices,winnerValuesOfConsumerPrices);
+                                    myAvgStdLivingMap   = insertValuesIntoHashMap(citiesAvgStdLiving,winnerValuesOfAvgStdLiving);
+
+                                    System.out.println("Weather: "+Arrays.asList(myWeatherMap));
+                                    System.out.println("Sea weather: " + Arrays.asList(mySeaWeatherMap));
+                                    System.out.println("Prices values: "+Arrays.asList(myConsumerPricesMap));
+                                    System.out.println("Avg standard of living values: "+Arrays.asList(myAvgStdLivingMap));
+
+                                    //System.out.println("Radio button option: " + priceOfRadioButton);
 
                                 }
                         }
-
                     }
                 }
         );
     }
 
 }
-
-/*
-Part 2, how to convert that radio button to a numeric value. Really, there are many ways to do this. I think my preferred way would be an enum, but you could do
-any number of methods for string to int mapping, radio button id to int mapping, etc. You could even use tags. Looks like you have some commented code in there around tags.
-I would just set the tags in the xml, then use checkedButton.getTag() to get the value when you are ready to move on to the next page. Simple enough.
-* */
