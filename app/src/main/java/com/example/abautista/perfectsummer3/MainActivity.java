@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private static int ProgressBarSunshine        = 0;
     private static int ProgressBarPrices          = 0;
     private static int ProgressBarStdLiving       = 0;
+
 
     //see the weather temperature
     private static SeekBar weatherSeekBar;
@@ -585,7 +587,6 @@ public class MainActivity extends AppCompatActivity {
         return accumulatedPoints;
     }
 
-
     //Systems for doing the scoring system
     public List<Integer> checkOtherValues(List<Integer> listOfValues, Integer valueToCheck, Integer numberOfPoints){
 
@@ -695,7 +696,6 @@ public class MainActivity extends AppCompatActivity {
                         int pricesValueProgress       = getProgressBarPrices();
                         int averageStdLiving          = getProgressBarStdLiving();
 
-
                         //Check the month that corresponds with his selection
                         int monthNumber               = selectedMonth.getCheckedRadioButtonId();
                         selectedMonthRb               = (RadioButton) findViewById(monthNumber);
@@ -728,7 +728,6 @@ public class MainActivity extends AppCompatActivity {
                         HashMap<String, Integer> myConsumerPricesMap = new HashMap<>();
                         HashMap<String, Integer> myAvgStdLivingMap = new HashMap<>();
 
-
                         List<String> citiesWeather = new ArrayList<String>();
                         List<Integer> weatherValueCities = new ArrayList<Integer>();
 
@@ -753,7 +752,6 @@ public class MainActivity extends AppCompatActivity {
                         List<Integer> winnerValuesOfSunshine         = new ArrayList<Integer>();
                         List<Integer> winnerValuesOfConsumerPrices   = new ArrayList<Integer>();
                         List<Integer> winnerValuesOfAvgStdLiving     = new ArrayList<Integer>();
-
 
                         switch (monthText) {
 
@@ -851,10 +849,8 @@ public class MainActivity extends AppCompatActivity {
                                     System.out.println("Rainfall values: "+Arrays.asList(myRainfallMap));
                                     System.out.println("Sunshine values: "+Arrays.asList(mySunshineMap));
                                     System.out.println("Prices values: "+Arrays.asList(myConsumerPricesMap));
-                                    System.out.println("Avg standard of living values: "+Arrays.asList(myAvgStdLivingMap));
-
-                                    //System.out.println("Radio button option: " + priceOfRadioButton);
-
+                                    System.out.println("Avg standard of living values: " + Arrays.asList(myAvgStdLivingMap));
+                                    System.out.println(mergeAndAdd(makeAlist(myWeatherMap, mySeaWeatherMap, myRainfallMap, mySunshineMap, myConsumerPricesMap, myAvgStdLivingMap)));
                                 }
                         }
                     }
@@ -862,4 +858,31 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    public HashMap<String, Integer> mergeAndAdd(ArrayList<HashMap<String, Integer>> maplist) {
+        HashMap<String, Integer> result = new HashMap<>();
+        for (HashMap<String, Integer> map : maplist) {
+            for (Map.Entry<String, Integer> entry : map.entrySet()) {
+                String key = entry.getKey();
+                Integer current = result.get(key);
+                result.put(key, current == null ? entry.getValue() : entry.getValue() + current);
+            }
+        }
+        return result;
+    }
+
+    public ArrayList<HashMap<String,Integer>> makeAlist(HashMap<String,Integer> Weather, HashMap<String, Integer> SeaWeather, HashMap<String, Integer> Rainfall,
+    HashMap<String, Integer> Sunshine, HashMap <String, Integer> Prices, HashMap<String, Integer> AvgStd){
+
+        ArrayList<HashMap<String,Integer>> mergedCategories = new ArrayList<>();
+
+        mergedCategories.add(Weather);
+        mergedCategories.add(SeaWeather);
+        mergedCategories.add(Rainfall);
+        mergedCategories.add(Sunshine);
+        mergedCategories.add(Prices);
+        mergedCategories.add(AvgStd);
+
+        return mergedCategories;
+
+    }
 }

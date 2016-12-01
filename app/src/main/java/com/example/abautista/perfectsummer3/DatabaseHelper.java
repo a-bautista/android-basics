@@ -24,7 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
     }
 
-    private static final String DATABASE_NAME = "Destinations.db";
+    private static final String DATABASE_NAME = "Destinations1.db";
     private static final int DATABASE_VERSION = 1;
     public static final String TAG = "DatabaseHelper";
 
